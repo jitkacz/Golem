@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+import os
+
 try:
     from setuptools import setup, find_packages
 except ImportError:
@@ -20,7 +22,7 @@ setup(
 
 
     install_requires=[
-        "PyGame>=0",
+        "PyGame>=1.9.1",
     ],
 
     packages=find_packages(exclude=['ez_setup']),
@@ -33,3 +35,27 @@ setup(
 	},
 	**info.SETUP
 )
+
+def removeDir(name):
+	try:
+		os.rmdir(name)
+	except:
+		for i in os.listdir(name):
+			path = os.path.join(name, i)
+			print "removing: "+path
+			if os.path.isfile(path):
+				os.remove(path)
+			else:
+				removeDir(path)
+				try:
+					os.rmdir(path)
+				except:
+					pass
+		os.rmdir(name)
+
+try:
+	removeDir('build')
+	removeDir('Golem.egg-info')
+except:
+	pass
+
