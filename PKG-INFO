@@ -1,0 +1,18 @@
+Metadata-Version: 0.1
+Name: golem
+Version: 0.1
+Summary: Python game framework
+Home-page:
+Author: Juda Kaleta
+Author-email: juda.kaleta@gmail.com
+License: GNU GPL v.2
+Description: Golem is Python game framework for 2D stategies, arcades etc.
+
+Platform: UNKNOWN
+Classifier: Development Status :: 3 - Alpha
+Classifier: License :: OSI Approved :: GNU General Public License (GPL)
+Classifier: Operating System :: OS Independent
+Classifier: Operating System :: POSIX :: Linux
+Classifier: Programming Language :: Python
+Classifier: Natural Language :: English
+Classifier: Natural Language :: Czech

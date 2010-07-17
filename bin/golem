@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+cd ../golem/
+
+if [ "$1" == "server" ]; then
+	./server.sh;
+elif [ "$1" ]; then
+	/usr/bin/env python -c "from golem import *" $1;
+else
+	$TERM -fg white -bg black -ah -T "iGolem" -e /usr/bin/env python3 -i -c "from golem import *";
+fi
