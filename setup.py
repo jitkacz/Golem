@@ -3,11 +3,11 @@
 import os
 
 try:
-    from setuptools import setup, find_packages
+    from setuptools import setup, find_packages, Extension
 except ImportError:
     from ez_setup import use_setuptools
     use_setuptools()
-    from setuptools import setup, find_packages
+    from setuptools import setup, find_packages, Extension
 
 from golem.libs import info
 
@@ -15,6 +15,14 @@ os_files = [
 	 # man-page ("man 1 golem")
 	 ('share/man/man1',['docs/golem.1']),
 ]
+
+clibs = [
+	Extension(
+		'golem.libs.test',
+		sources = ['golem/libs/test.c'],
+	),
+]
+
 
 setup(
 	zip_safe=True,
@@ -33,29 +41,9 @@ setup(
 			'golem/locale/*/LC_MESSAGES/*.mo',
 			]
 	},
+	ext_modules = clibs,
+
 	**info.SETUP
 )
 
-def removeDir(name):
-	try:
-		os.rmdir(name)
-	except:
-		for i in os.listdir(name):
-			path = os.path.join(name, i)
-			print "removing: "+path
-			if os.path.isfile(path):
-				os.remove(path)
-			else:
-				removeDir(path)
-				try:
-					os.rmdir(path)
-				except:
-					pass
-		os.rmdir(name)
-
-try:
-	removeDir('build')
-	removeDir('Golem.egg-info')
-except:
-	pass
 
