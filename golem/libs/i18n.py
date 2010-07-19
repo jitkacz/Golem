@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #-*- coding:utf-8 -*-
 
-import libs
+import gettext
 
-import objects
+_ = gettext.gettext
