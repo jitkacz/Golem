@@ -8,7 +8,7 @@ class TestGrid(unittest.TestCase):
 	def setUp(self):
 		self.grid = grid.Grid()
 
-	def test_setSize(self,):
+	def test_setSize(self):
 		x = random.randint(1,10)
 		y = random.randint(1,10)
 
