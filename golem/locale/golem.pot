@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Golem 0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2010-07-21 13:31+0200\n"
+"POT-Creation-Date: 2010-07-21 16:46+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,13 +17,13 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.5\n"
 
-#: golem/golem.py:10
+#: golem/golem.py:12
 msgid ""
 "\n"
-"Golem is Python's game framework for developing and learning.\n"
+"Golem is Python's game framework for developing and education.\n"
 msgstr ""
 
-#: golem/golem.py:15
+#: golem/golem.py:17
 msgid "Version of Golem is "
 msgstr ""
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import os
+import os, glob
 
 try:
     from setuptools import setup, find_packages, Extension
@@ -23,6 +23,11 @@ clibs = [
 	),
 ]
 
+# Add all the translations
+locale_files = []
+for filepath in glob.glob("golem/locale/*/LC_MESSAGES/*"):
+	filepath = filepath.replace('golem/', '')
+	locale_files.append(filepath)
 
 setup(
 	zip_safe=True,
@@ -36,15 +41,12 @@ setup(
     packages=find_packages(exclude=['ez_setup']),
     scripts	= ['bin/golem'],
     package_data= {
-		'golem': [
-			'golem/*.py',
-			'golem/locale/*/LC_MESSAGES/*.mo',
-			]
+		'golem': locale_files
 	},
 	message_extractors = {'golem': [
 		('**.py', 'python', None),
 	]},
-
+	data_files = os_files,
 	ext_modules = clibs,
 
 	**info.SETUP

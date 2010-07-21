@@ -3,8 +3,9 @@
 
 VERSION             = "0.1"
 DATE                = "20100717"
-NAME                = 'Golem'
-GPL_VERSION         = '2'
+NAME                = 'Golem Framework'
+DESCRIPTION			= "Golem is Python game framework for 2D stategies, arcades etc."
+
 SUPPORTED_LANGUAGES = ['English', 'Czech']
 
 # names of all contributers, using 'u' for unicode encoding
@@ -25,24 +26,29 @@ SETUP   = {
     'author_email'      : JK['email'],
     'maintainer'        : JK['name'],
     'maintainer_email'  : JK['email'],
-    'url'               : '',
-    'license'           : 'GNU GPL v.' + GPL_VERSION,
-	'description'	   : 'Python game framework',
-	'long_description'  : "Golem is Python game framework for 2D stategies, arcades etc.",
+    'url'               : 'http://golem.github.com/Golem/',
+    'license'           : 'Python Software Foundation License',
+	'description'	    : 'Python game framework',
+	'long_description'  : DESCRIPTION,
 
 
 # see http://pypi.python.org/pypi?%3Aaction=list_classifiers
     'classifiers'       : [
-                           'Development Status :: 3 - Alpha',
-                           'Environment :: X11 Applications',
-                           'Environment :: X11 Applications :: GTK',
-                           'Intended Audience :: End Users/Desktop',
-                           'License :: OSI Approved :: GNU General Public License (GPL)',
-                           'Operating System :: OS Independent',
-                           'Operating System :: POSIX :: Linux',
-                           'Programming Language :: Python',
-						   ] +
-                          ['Natural Language :: ' + language for language in SUPPORTED_LANGUAGES
-                          ],
+'Development Status :: 3 - Alpha',
+'Intended Audience :: Developers',
+'Intended Audience :: Education',
+'Intended Audience :: End Users/Desktop',
+'License :: OSI Approved :: Python Software Foundation License',
+'Operating System :: OS Independent',
+'Operating System :: Microsoft :: Windows',
+'Operating System :: POSIX :: Linux',
+'Programming Language :: Python',
+'Topic :: Games/Entertainment',
+'Topic :: Software Development',
+'Topic :: Software Development :: Build Tools',
+'Topic :: Software Development :: Libraries :: Python Modules',
+							] +
+							['Natural Language :: ' + language for language in SUPPORTED_LANGUAGES
+							],
 }
 
