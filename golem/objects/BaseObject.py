@@ -27,12 +27,17 @@ class BaseObject:
 	def setGrid(self, grid):
 		self._grid = grid
 
-	def setPosition(self, position):
+	def setPosition(self, position, y=None):
+		if position is int:
+			position = (position, y)
+
 		if self.moveable:
 			if(self._grid.goTo(self, position)):
 				self._position = position
+			else:
+				raise ObjectException(_('Object cant be transported to (%i, %i)', position[0], position[1]))
 		else:
-			raise ObjectException(_('Object is not moveable')), self
+			raise ObjectException(_('Object is not moveable'))
 
 
 	def getPosition(self):

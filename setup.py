@@ -41,6 +41,10 @@ setup(
 			'golem/locale/*/LC_MESSAGES/*.mo',
 			]
 	},
+	message_extractors = {'golem': [
+		('**.py', 'python', None),
+	]},
+
 	ext_modules = clibs,
 
 	**info.SETUP

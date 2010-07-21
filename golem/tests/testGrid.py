@@ -4,6 +4,8 @@
 import unittest, random
 import grid
 
+from libs.i18n import *
+
 class TestGrid(unittest.TestCase):
 	def setUp(self):
 		self.grid = grid.Grid()

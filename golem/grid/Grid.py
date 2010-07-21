@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 #-*- coding:utf-8 -*-
 
+from libs.i18n import *
+
 class Grid:
 	_size = [10, 10]
 
@@ -18,3 +20,6 @@ class Grid:
 
 	def getGrid(self):
 		return self._grid
+
+	def goTo(self, object, position):
+		return False
