@@ -5,7 +5,7 @@ import sys
 
 from golem import golem
 from golem.libs.i18n import lang
-
+ 
 print ">> Show version in default language:"
 print golem.version(), "\n"
 

@@ -5,6 +5,8 @@ import os, locale, gettext
 
 import config
 
+
+
 __all__ = ['_', 'Lang', 'lang']
 
 class Lang:
@@ -18,7 +20,12 @@ class Lang:
 	def __init__(self, path, domain='golem'):
 		self.domain = domain
 		self.path = path
-		self.change()
+			
+		if os.name=='nt':
+			locale.setlocale(locale.LC_ALL, '')
+			self.change(locale.getdefaultlocale()[0][:2])
+		else:
+			self.change()
 
 	def change(self, lang=None):
 		if lang:
