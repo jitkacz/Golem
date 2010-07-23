@@ -26,6 +26,9 @@ class BaseObject(object):
 		if grid:
 			self.setGrid(grid, position)
 
+	def getGrid(self):
+		return self._grid
+
 	def setGrid(self, grid, position=(0,0)):
 		# TODO - check if grid is instance of Grid
 		self._grid = grid
