@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/usr/bin/env bash
 
 if [ $1 ]; then
 	PYTHONPATH="/usr/lib/python2.6:./golem/" testoob --html tests.html ./golem/tests/$1

@@ -10,5 +10,5 @@ for file in os.listdir('./golem/tests/'):
 			try:
 				exec("from "+name+" import *")
 			except:
-				pass
+				print sys.exc_info()
 
