@@ -42,7 +42,11 @@ class BaseObject(object):
 	_grid = None
 
 
+<<<<<<< HEAD
 	def __init__(self, grid=None, image=None, position=(0,0)):
+=======
+	def __init__(self, grid=None, position=(0,0)):
+>>>>>>> 42eb8a9... BaseObject documentation
 		"""
 		To create new instance of BaseObject.
 		"""
@@ -50,9 +54,12 @@ class BaseObject(object):
 		if grid:
 			self.setGrid(grid, position)
 
+<<<<<<< HEAD
 		if image:
 			self.setImage(image)
 
+=======
+>>>>>>> 42eb8a9... BaseObject documentation
 	def setGrid(self, grid, position=(0,0)):
 		"""
 		Assignment object to grid.
@@ -64,6 +71,7 @@ class BaseObject(object):
 		if self._grid.addObject(self, position):
 			self.position = position
 		else:
+<<<<<<< HEAD
 			return False
 
 <<<<<<< HEAD
@@ -81,6 +89,14 @@ class BaseObject(object):
 	def getGrid(self):
 		return self._grid
 >>>>>>> 5ead219ebd17b91bee4f0d293874d7b597615e63
+=======
+			raise ObjectException(
+				_('Object cant be located to position (%(x)d, %(y)d)' % {'x' : position[0], 'y' : position[1]})
+			)
+
+	def getGrid(self):
+		return self._grid
+>>>>>>> 42eb8a9... BaseObject documentation
 
 	def setPosition(self, position, y=None):
 		"""
@@ -95,7 +111,13 @@ class BaseObject(object):
 				self.position = position
 				return True
 			else:
+<<<<<<< HEAD
 				return False
+=======
+				raise ObjectException(
+					_('Object cant be transported to (%(x)d, %(y)d)' % {'x' : position[0], 'y' : position[1]})
+				)
+>>>>>>> 42eb8a9... BaseObject documentation
 		else:
 			raise ObjectException(_('Object is not moveable'))
 
