@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 #-*- coding:utf-8 -*-
 
-import os
 import libs.info
 
 from libs.i18n import *
@@ -16,3 +15,4 @@ Golem is Python's game framework for developing and education.
 
 def version():
 	return _('Version of Golem is ')+__version__
+
