@@ -6,52 +6,84 @@ class ObjectException(BaseException):
 	pass
 
 class BaseObject(object):
+	"""
+	BaseObject is parent of all objects. In default it
+	isnt moveable, but it is visible.
+
+	How to create new BaseObject
+	----------------------------
+	>> myobject = BaseObject()
+
+	If you have an instance of Grid, you can localizate it:
+	>> mygrid = Grid()
+	>> myobject = BaseObject(grid=mygrid, position=[4,2])
+
+	To move with BaseObject, you must set it moveable first
+	(or create this object as MoveableObject):
+	>> myobject.setPosition(2, 3) # WRONG!
+
+	>> myobject.moveable = True
+	>> myobject.setPosition(2, 3) # CORRECT
+
+	If you dont want to set object moveable, you must use Grid
+	method teleport():
+	>> mygrid.teleport(myobject, [1,3])
+
+	"""
+
 	name = ''
 	speed = 0
 
 	moveable = False
-
-	_image = None
-
-	_visible = True
-
 	position = [0, 0]
 
-
+	_image = None
+	_visible = True
 	_grid = None
 
 
 	def __init__(self, grid=None, position=(0,0)):
+		"""
+		To create new instance of BaseObject.
+		"""
 		# TODO - check if grid is instance of Grid
 		if grid:
 			self.setGrid(grid, position)
 
-	def getGrid(self):
-		return self._grid
-
 	def setGrid(self, grid, position=(0,0)):
+		"""
+		Assignment object to grid.
+		"""
+
 		# TODO - check if grid is instance of Grid
 		self._grid = grid
 
 		if self._grid.addObject(self, position):
-			self._setPosition(position)
+			self.position = position
 		else:
-			raise ObjectException(_('Object cant be located to position (%(x)d, %(y)d)' % {'x' : position[0], 'y' : position[1]}))
+			raise ObjectException(
+				_('Object cant be located to position (%(x)d, %(y)d)' % {'x' : position[0], 'y' : position[1]})
+			)
 
-	def _setPosition(self, position, y=None):
-		if position is int:
-			position = (position, y)
-		return position
+	def getGrid(self):
+		return self._grid
 
 	def setPosition(self, position, y=None):
-		position = self._setPosition(position, y)
+		"""
+		Change objects position. If object is not moveable
+		it will raise an exception.
+		"""
+		if type(position) is int:
+			position = (position, y)
 
 		if self.moveable:
-			if(self._grid.goTo(self, position)):
+			if self._grid.goTo(self, position):
 				self.position = position
 				return True
 			else:
-				raise ObjectException(_('Object cant be transported to (%(x)d, %(y)d)' % {'x' : position[0], 'y' : position[1]}))
+				raise ObjectException(
+					_('Object cant be transported to (%(x)d, %(y)d)' % {'x' : position[0], 'y' : position[1]})
+				)
 		else:
 			raise ObjectException(_('Object is not moveable'))
 
