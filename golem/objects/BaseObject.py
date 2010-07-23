@@ -6,6 +6,7 @@ class ObjectException(BaseException):
 	pass
 
 class BaseObject(object):
+<<<<<<< HEAD
 	"""
 	BaseObject is parent of all objects. In default it
 	isnt moveable, but it is visible.
@@ -31,6 +32,8 @@ class BaseObject(object):
 
 	"""
 
+=======
+>>>>>>> 824af7d... Collisions
 	name = ''
 	speed = 0
 
@@ -41,6 +44,7 @@ class BaseObject(object):
 	_visible = True
 	_grid = None
 
+<<<<<<< HEAD
 
 <<<<<<< HEAD
 	def __init__(self, grid=None, image=None, position=(0,0)):
@@ -53,6 +57,11 @@ class BaseObject(object):
 		# TODO - check if grid is instance of Grid
 		if grid:
 			self.setGrid(grid, position)
+=======
+	_visible = True
+
+	position = [0, 0]
+>>>>>>> 824af7d... Collisions
 
 <<<<<<< HEAD
 		if image:
@@ -68,6 +77,7 @@ class BaseObject(object):
 		# TODO - check if grid is instance of Grid
 		self._grid = grid
 
+<<<<<<< HEAD
 		if self._grid.addObject(self, position):
 			self.position = position
 		else:
@@ -84,6 +94,15 @@ class BaseObject(object):
 	def setGrid(self, grid, position=(0,0)):
 		# TODO - check if grid is instance of Grid
 >>>>>>> 3a9514f... Documentation to Grid
+=======
+	def __init__(self, grid=None, position=(0,0)):
+		# TODO - check if grid is instance of Grid
+		if grid:
+			self.setGrid(grid, position)
+
+	def setGrid(self, grid, position=(0,0)):
+		# TODO - check if grid is instance of Grid
+>>>>>>> 824af7d... Collisions
 		self._grid = grid
 =======
 	def getGrid(self):
@@ -98,15 +117,30 @@ class BaseObject(object):
 		return self._grid
 >>>>>>> 42eb8a9... BaseObject documentation
 
+<<<<<<< HEAD
 	def setPosition(self, position, y=None):
 		"""
 		Change objects position. If object is not moveable
 		it will raise an exception.
 		"""
 		if type(position) is int:
+=======
+		if self._grid.addObject(self, position):
+			self._setPosition(position)
+		else:
+			raise ObjectException(_('Object cant be located to position (%(x)d, %(y)d)' % {'x' : position[0], 'y' : position[1]}))
+
+	def _setPosition(self, position, y=None):
+		if position is int:
+>>>>>>> 824af7d... Collisions
 			position = (position, y)
+		return position
+
+	def setPosition(self, position, y=None):
+		position = self._setPosition(position, y)
 
 		if self.moveable:
+<<<<<<< HEAD
 			if self._grid.goTo(self, position):
 				self.position = position
 				return True
@@ -118,11 +152,19 @@ class BaseObject(object):
 					_('Object cant be transported to (%(x)d, %(y)d)' % {'x' : position[0], 'y' : position[1]})
 				)
 >>>>>>> 42eb8a9... BaseObject documentation
+=======
+			if(self._grid.goTo(self, position)):
+				self.position = position
+				return True
+			else:
+				raise ObjectException(_('Object cant be transported to (%(x)d, %(y)d)' % {'x' : position[0], 'y' : position[1]}))
+>>>>>>> 824af7d... Collisions
 		else:
 			raise ObjectException(_('Object is not moveable'))
 
 	def getPosition(self):
 		return (self.position[0], self.position[1])
+<<<<<<< HEAD
 
 	def setImage(self, image):
 		self._image = image
@@ -131,3 +173,5 @@ class BaseObject(object):
 		return self._image
 
 
+=======
+>>>>>>> 824af7d... Collisions

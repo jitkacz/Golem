@@ -2,9 +2,12 @@
 #-*- coding:utf-8 -*-
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 import os
 =======
 >>>>>>> 5ead219ebd17b91bee4f0d293874d7b597615e63
+=======
+>>>>>>> 9407e1d... Add Collisions functionality
 import libs.info
 
 from libs.i18n import *

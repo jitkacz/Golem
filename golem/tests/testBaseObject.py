@@ -14,7 +14,11 @@ class testBaseObject(unittest.TestCase):
 		self.grid = grid.Grid().setSize([400,400])
 		self.object.setGrid(self.grid)
 
+<<<<<<< HEAD
 	def test_objectsArentEqual(self):
+=======
+	def test_objectsIsntEqual(self):
+>>>>>>> 824af7d... Collisions
 		"""
 		check
 		"""
