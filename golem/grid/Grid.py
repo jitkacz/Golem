@@ -2,7 +2,9 @@
 #-*- coding:utf-8 -*-
 
 #import grid.findWay
-import grid.Collisions
+import time
+from random import randint
+
 
 class Grid(object):
 	"""
@@ -18,6 +20,9 @@ class Grid(object):
 
 	"""
 
+	from grid.Collisions import Collision, Collisions
+
+	viewer = None
 
 	_size = [0, 0]
 	_grid = []
@@ -91,35 +96,13 @@ class Grid(object):
 			return False
 		return True
 
-	def printGrid(self):
-		"""
-		Show grid as a text table. Objects are showed as five
-		chars of their place in memory
-
-		It is very ugly function, in next commit I will remove it.
-		"""
-		string = "\t"
-		for i in range(self._size[0]):
-			string += str(i)+"\t"
-		print string
-
-		for i in range(self._size[1]):
-			string = str(i)+"\t"
-			for j in range(self._size[0]):
-				cell = self._grid[j][i]
-				if not cell[0] and len(cell)==1:
-					cell = ''
-				else:
-					cell = str(cell)[-7:-2]
-				string += cell + "\t"
-			print string
-
 	def goTo(self, object, position):
 		"""
 		Function to transport the object along the shortest way.
 		"""
 		#grid.Collisions.getPatencyOfGridList(object, self._objects, self._size)
 		# TODO - replace it by findWay
+
 		return self.teleport(object, position)
 
 	def teleport(self, object, position):
@@ -127,10 +110,13 @@ class Grid(object):
 		Function to transport object to some place without
 		looking for any way - only teleport it.
 		"""
-		objectsOnPosition = self._grid[position[0]][position[1]]
+		try:
+			objectsOnPosition = self._grid[position[0]][position[1]]
+		except IndexError:
+			return False
 
 		if objectsOnPosition:
-			if grid.Collisions.checkCollisions(object, objectsOnPosition):
+			if self.Collisions.checkCollisions(object, objectsOnPosition):
 				try:
 					self._cleanObjectFromOldPosition(object.getPosition())
 				except:
@@ -165,3 +151,14 @@ class Grid(object):
 		for i, pos in enumerate(self._grid[position[0]][position[1]]):
 			if not pos:
 				self._grid[position[0]][position[1]].pop(i)
+
+	def randomPosition(self):
+		"""
+		Generate random position. It doesn't check anything.
+		"""
+
+		x = randint(0, self._size[0]-1)
+		y = randint(0, self._size[1]-1)
+
+		return x, y
+

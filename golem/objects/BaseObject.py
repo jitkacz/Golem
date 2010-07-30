@@ -42,13 +42,16 @@ class BaseObject(object):
 	_grid = None
 
 
-	def __init__(self, grid=None, position=(0,0)):
+	def __init__(self, grid=None, image=None, position=(0,0)):
 		"""
 		To create new instance of BaseObject.
 		"""
 		# TODO - check if grid is instance of Grid
 		if grid:
 			self.setGrid(grid, position)
+
+		if image:
+			self.setImage(image)
 
 	def setGrid(self, grid, position=(0,0)):
 		"""
@@ -89,3 +92,11 @@ class BaseObject(object):
 
 	def getPosition(self):
 		return (self.position[0], self.position[1])
+
+	def setImage(self, image):
+		self._image = image
+
+	def getImage(self):
+		return self._image
+
+

@@ -82,6 +82,9 @@ class Collisions(object):
 		else:
 			return collision.speed
 
+	def getCollisions(self):
+		return self._collisions
+
 # change Collisions to only-static
 Collisions = Collisions()
 
