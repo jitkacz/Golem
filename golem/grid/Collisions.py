@@ -11,13 +11,19 @@ class Collisions(object):
 	_collisions = {}
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 5ead219... Lot of fixes
 	def __init__(self):
 		self._collisions = {}
 
 	def append(self, collision):
+<<<<<<< HEAD
 =======
 	def appendCollision(self, collision):
 >>>>>>> 9407e1d... Add Collisions functionality
+=======
+>>>>>>> 5ead219... Lot of fixes
 		"""
 		To append an instance of collision to dictionary.
 		"""
@@ -90,10 +96,17 @@ class Collisions(object):
 			return collision.speed
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 	def getCollisions(self):
 		return self._collisions
 
 =======
+=======
+	def getCollisions(self):
+		return self._collisions
+
+<<<<<<< HEAD
+>>>>>>> 6499945... Adding Pygame viewer.
 # change Collisions to only-static
 Collisions = Collisions()
 
@@ -156,3 +169,5 @@ class Collision(object):
 		"""
 		pass
 >>>>>>> 9407e1d... Add Collisions functionality
+=======
+>>>>>>> 5ead219... Lot of fixes

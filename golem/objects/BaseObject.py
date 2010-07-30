@@ -47,10 +47,14 @@ class BaseObject(object):
 <<<<<<< HEAD
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 	def __init__(self, grid=None, image=None, position=(0,0)):
 =======
 	def __init__(self, grid=None, position=(0,0)):
 >>>>>>> 42eb8a9... BaseObject documentation
+=======
+	def __init__(self, grid=None, image=None, position=(0,0)):
+>>>>>>> 6499945... Adding Pygame viewer.
 		"""
 		To create new instance of BaseObject.
 		"""
@@ -67,8 +71,14 @@ class BaseObject(object):
 		if image:
 			self.setImage(image)
 
+<<<<<<< HEAD
 =======
 >>>>>>> 42eb8a9... BaseObject documentation
+=======
+		if image:
+			self.setImage(image)
+
+>>>>>>> 6499945... Adding Pygame viewer.
 	def setGrid(self, grid, position=(0,0)):
 		"""
 		Assignment object to grid.
@@ -81,6 +91,7 @@ class BaseObject(object):
 		if self._grid.addObject(self, position):
 			self.position = position
 		else:
+<<<<<<< HEAD
 <<<<<<< HEAD
 			return False
 
@@ -112,6 +123,9 @@ class BaseObject(object):
 			raise ObjectException(
 				_('Object cant be located to position (%(x)d, %(y)d)' % {'x' : position[0], 'y' : position[1]})
 			)
+=======
+			return False
+>>>>>>> 5ead219... Lot of fixes
 
 	def getGrid(self):
 		return self._grid
@@ -146,6 +160,7 @@ class BaseObject(object):
 				return True
 			else:
 <<<<<<< HEAD
+<<<<<<< HEAD
 				return False
 =======
 				raise ObjectException(
@@ -159,12 +174,18 @@ class BaseObject(object):
 			else:
 				raise ObjectException(_('Object cant be transported to (%(x)d, %(y)d)' % {'x' : position[0], 'y' : position[1]}))
 >>>>>>> 824af7d... Collisions
+=======
+				return False
+>>>>>>> 5ead219... Lot of fixes
 		else:
 			raise ObjectException(_('Object is not moveable'))
 
 	def getPosition(self):
 		return (self.position[0], self.position[1])
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 6499945... Adding Pygame viewer.
 
 	def setImage(self, image):
 		self._image = image
@@ -173,5 +194,8 @@ class BaseObject(object):
 		return self._image
 
 
+<<<<<<< HEAD
 =======
 >>>>>>> 824af7d... Collisions
+=======
+>>>>>>> 6499945... Adding Pygame viewer.

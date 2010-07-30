@@ -5,9 +5,18 @@
 import time
 from random import randint
 
+<<<<<<< HEAD
+<<<<<<< HEAD
 from grid.Collisions import Collisions
 from grid.Collision import Collision
 from grid.Changes import Changes
+=======
+>>>>>>> 6499945... Adding Pygame viewer.
+=======
+from grid.Collisions import Collisions
+from grid.Collision import Collision
+from grid.Changes import Changes
+>>>>>>> 5ead219... Lot of fixes
 
 class Grid(object):
 	"""
@@ -23,7 +32,20 @@ class Grid(object):
 
 	"""
 
+<<<<<<< HEAD
+<<<<<<< HEAD
 	viewer = None
+
+	Collisions = None
+	Collision = None
+	Changes = None
+=======
+	from grid.Collisions import Collision, Collisions
+
+=======
+>>>>>>> 5ead219... Lot of fixes
+	viewer = None
+>>>>>>> 6499945... Adding Pygame viewer.
 
 	Collisions = None
 	Collision = None
@@ -170,3 +192,10 @@ class Grid(object):
 		y = randint(0, self._size[1]-1)
 
 		return x, y
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+
+>>>>>>> 6499945... Adding Pygame viewer.
+=======
+>>>>>>> 5ead219... Lot of fixes
