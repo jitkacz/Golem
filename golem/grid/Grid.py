@@ -5,6 +5,9 @@
 import time
 from random import randint
 
+from grid.Collisions import Collisions
+from grid.Collision import Collision
+from grid.Changes import Changes
 
 class Grid(object):
 	"""
@@ -20,9 +23,11 @@ class Grid(object):
 
 	"""
 
-	from grid.Collisions import Collision, Collisions
-
 	viewer = None
+
+	Collisions = None
+	Collision = None
+	Changes = None
 
 	_size = [0, 0]
 	_grid = []
@@ -30,6 +35,10 @@ class Grid(object):
 
 	def __init__(self, size=[10,10]):
 		"""	Create new instance of Grid. """
+		self.Collisions = Collisions()
+		self.Collision = Collision
+		self.Changes = Changes()
+
 		self.setSize(size)
 
 	def setSize(self, size):
@@ -161,4 +170,3 @@ class Grid(object):
 		y = randint(0, self._size[1]-1)
 
 		return x, y
-

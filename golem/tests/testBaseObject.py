@@ -14,7 +14,7 @@ class testBaseObject(unittest.TestCase):
 		self.grid = grid.Grid().setSize([400,400])
 		self.object.setGrid(self.grid)
 
-	def test_objectsIsntEqual(self):
+	def test_objectsArentEqual(self):
 		"""
 		check
 		"""

@@ -26,6 +26,12 @@ class TestGrid(unittest.TestCase):
 			y
 		)
 
+	def test_gridsArentEqual(self):
+		self.assertNotEqual(
+			grid.Grid(),
+			grid.Grid()
+		)
+
 
 
 

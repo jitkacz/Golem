@@ -64,9 +64,7 @@ class BaseObject(object):
 		if self._grid.addObject(self, position):
 			self.position = position
 		else:
-			raise ObjectException(
-				_('Object cant be located to position (%(x)d, %(y)d)' % {'x' : position[0], 'y' : position[1]})
-			)
+			return False
 
 	def getGrid(self):
 		return self._grid
@@ -84,9 +82,7 @@ class BaseObject(object):
 				self.position = position
 				return True
 			else:
-				raise ObjectException(
-					_('Object cant be transported to (%(x)d, %(y)d)' % {'x' : position[0], 'y' : position[1]})
-				)
+				return False
 		else:
 			raise ObjectException(_('Object is not moveable'))
 
