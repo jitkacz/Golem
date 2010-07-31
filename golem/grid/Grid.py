@@ -1,16 +1,17 @@
 #!/usr/bin/env python
 #-*- coding:utf-8 -*-
 
-from libs.i18n import *
+#import grid.findWay
+import time
+from random import randint
 
-<<<<<<< HEAD
-class Grid:
-	_size = [10, 10]
-=======
+from grid.Collisions import Collisions
+from grid.Collision import Collision
+from grid.Changes import Changes
+
 class Grid(object):
 	"""
 	Class to create a grid for saving objects.
->>>>>>> 3a9514f... Documentation to Grid
 
 	How to create new grid
 	----------------------
@@ -20,10 +21,13 @@ class Grid(object):
 	Size of a grid is possible to set within initialization
 	>> mygrid = Grid([5, 3])
 
-<<<<<<< HEAD
-=======
 	"""
 
+	viewer = None
+
+	Collisions = None
+	Collision = None
+	Changes = None
 
 	_size = [0, 0]
 	_grid = []
@@ -31,9 +35,12 @@ class Grid(object):
 
 	def __init__(self, size=[10,10]):
 		"""	Create new instance of Grid. """
+		self.Collisions = Collisions()
+		self.Collision = Collision
+		self.Changes = Changes()
+
 		self.setSize(size)
 
->>>>>>> 3a9514f... Documentation to Grid
 	def setSize(self, size):
 		""" Set new size of grid and refresh objects at grid. """
 		# TODO - check if is size list or tuple
@@ -45,10 +52,6 @@ class Grid(object):
 
 		return self
 
-<<<<<<< HEAD
-	def _createGrid(self):
-		self._grid = [[None] * self._size[1]] * self._size[0]
-=======
 	def _createGrid(self, size):
 		self._grid = []
 
@@ -59,7 +62,6 @@ class Grid(object):
 				row.append([None])
 
 			self._grid.append(row)
->>>>>>> 3a9514f... Documentation to Grid
 
 	def _refreshGrid(self):
 		"""
@@ -74,10 +76,6 @@ class Grid(object):
 	def getGrid(self):
 		return self._grid
 
-<<<<<<< HEAD
-	def goTo(self, object, position):
-		return False
-=======
 	def getObjects(self):
 		return self._objects
 
@@ -107,35 +105,13 @@ class Grid(object):
 			return False
 		return True
 
-	def printGrid(self):
-		"""
-		Show grid as a text table. Objects are showed as five
-		chars of their place in memory
-
-		It is very ugly function, in next commit I will remove it.
-		"""
-		string = "\t"
-		for i in range(self._size[0]):
-			string += str(i)+"\t"
-		print string
-
-		for i in range(self._size[1]):
-			string = str(i)+"\t"
-			for j in range(self._size[0]):
-				cell = self._grid[j][i]
-				if not cell[0] and len(cell)==1:
-					cell = ''
-				else:
-					cell = str(cell)[-7:-2]
-				string += cell + "\t"
-			print string
-
 	def goTo(self, object, position):
 		"""
 		Function to transport the object along the shortest way.
 		"""
 		#grid.Collisions.getPatencyOfGridList(object, self._objects, self._size)
 		# TODO - replace it by findWay
+
 		return self.teleport(object, position)
 
 	def teleport(self, object, position):
@@ -143,10 +119,13 @@ class Grid(object):
 		Function to transport object to some place without
 		looking for any way - only teleport it.
 		"""
-		objectsOnPosition = self._grid[position[0]][position[1]]
+		try:
+			objectsOnPosition = self._grid[position[0]][position[1]]
+		except IndexError:
+			return False
 
 		if objectsOnPosition:
-			if grid.Collisions.checkCollisions(object, objectsOnPosition):
+			if self.Collisions.checkCollisions(object, objectsOnPosition):
 				try:
 					self._cleanObjectFromOldPosition(object.getPosition())
 				except:
@@ -181,4 +160,13 @@ class Grid(object):
 		for i, pos in enumerate(self._grid[position[0]][position[1]]):
 			if not pos:
 				self._grid[position[0]][position[1]].pop(i)
->>>>>>> 3a9514f... Documentation to Grid
+
+	def randomPosition(self):
+		"""
+		Generate random position. It doesn't check anything.
+		"""
+
+		x = randint(0, self._size[0]-1)
+		y = randint(0, self._size[1]-1)
+
+		return x, y
