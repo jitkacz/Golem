@@ -20,15 +20,7 @@ class Lang(object):
 	def __init__(self, path, domain='golem'):
 		self.domain = domain
 		self.path = path
-<<<<<<< HEAD
-<<<<<<< HEAD
-			
-=======
 
->>>>>>> 5ead219ebd17b91bee4f0d293874d7b597615e63
-=======
-
->>>>>>> 824af7d... Collisions
 		if os.name=='nt':
 			locale.setlocale(locale.LC_ALL, '')
 			self.change(locale.getdefaultlocale()[0][:2])
