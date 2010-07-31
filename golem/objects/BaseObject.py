@@ -24,7 +24,15 @@ class BaseObject:
 	def __init__(self):
 		pass
 
+<<<<<<< HEAD
 	def setGrid(self, grid):
+=======
+	def getGrid(self):
+		return self._grid
+
+	def setGrid(self, grid, position=(0,0)):
+		# TODO - check if grid is instance of Grid
+>>>>>>> 3a9514f... Documentation to Grid
 		self._grid = grid
 
 	def setPosition(self, position, y=None):
