@@ -9,6 +9,8 @@ from grid.Collisions import Collisions
 from grid.Collision import Collision
 from grid.Changes import Changes
 
+from grid.createGrid import _createGrid as createGridInC
+
 class Grid(object):
 	"""
 	Class to create a grid for saving objects.
@@ -53,15 +55,7 @@ class Grid(object):
 		return self
 
 	def _createGrid(self, size):
-		self._grid = []
-
-		for i in range(size[0]):
-			row = []
-
-			for j in range(size[1]):
-				row.append([None])
-
-			self._grid.append(row)
+		self._grid = createGridInC(size)
 
 	def _refreshGrid(self):
 		"""
