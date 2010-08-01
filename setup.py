@@ -21,6 +21,10 @@ clibs = [
 		'golem.libs.test',
 		sources = ['golem/libs/test.c'],
 	),
+	Extension(
+		'golem.grid.createGrid',
+		sources = ['golem/grid/createGrid.c'],
+	),
 ]
 
 # Add all the translations
