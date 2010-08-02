@@ -12,6 +12,7 @@ PyObject* createGrid(PyObject* self, PyObject* args) {
     int x, y;
     if (!PyArg_ParseTuple(args, "(ii)", &width, &height))
         return NULL;
+
     if (width == 0 || height == 0) {
         PyErr_SetString(PyExc_TypeError, "Parameter not be 0!");
         return NULL;
@@ -35,8 +36,35 @@ PyObject* createGrid(PyObject* self, PyObject* args) {
     Py_INCREF(Py_None);
     return list;
 }
+
+PyObject* createGridForCollisions(PyObject* self, PyObject* args) {
+	int width, height;
+	int x, y;
+
+	if (!PyArg_ParseTuple(args, "(ii)", &width, &height))
+		return NULL;
+
+	PyObject *list = PyList_New(0);
+
+	x = 0;
+	for (x; x < width; ++x) {
+		y = 0;
+
+		PyObject *buffer = PyList_New(0);
+
+		for(y; y < height; ++y) {
+			PyList_Append(buffer, PyInt_FromLong(100));
+		}
+		PyList_Append(list, buffer);
+	}
+
+	Py_INCREF(Py_None);
+	return list;
+}
+
 PyMethodDef createGrid_methods[] = {
     {"createGrid", createGrid, METH_VARARGS, "createGrid"},
+    {"createGridForCollisions", createGridForCollisions, METH_VARARGS, "createGridForCollisions"},
     {NULL, NULL, 0, NULL}
 };
 PyMODINIT_FUNC initcreateGrid(void) {

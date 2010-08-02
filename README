@@ -8,5 +8,5 @@ issued as a supplement for Python.
 Requieres
 =========
 - Python 2.6
-- PyGame, NumPy
+- PyGame
 - C compiler (gcc)

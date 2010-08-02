@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 #-*- coding:utf-8 -*-
 
-import numpy
+from createGrid import createGridForCollisions
 
 class Collisions(object):
 	"""
@@ -76,8 +76,7 @@ class Collisions(object):
 		"""
 		Function creates empty grid with values set to 100.
 		"""
-		patency = numpy.zeros(size, dtype=int)+100
-		return patency.tolist()
+		return createGridForCollisions(size)
 
 	def _getCollisionSpeed(self, collision):
 		if not collision.canGoThrough:
