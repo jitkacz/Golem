@@ -115,6 +115,9 @@ class Pygame(object):
 			if self.events.has_key(code):
 				self.events[code]()
 
+	def getPositionFromMouseClicking(self):
+		pass
+
 
 
 
