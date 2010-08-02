@@ -7,7 +7,7 @@
 #include <Python.h>
 
 // The function creating empty array
-PyObject* _createGrid(PyObject* self, PyObject* args) {
+PyObject* createGrid(PyObject* self, PyObject* args) {
     int width, height;
     if (!PyArg_ParseTuple(args, "(ii)", &width, &height))
         return NULL;
@@ -36,7 +36,7 @@ PyObject* _createGrid(PyObject* self, PyObject* args) {
     return list;
 }
 PyMethodDef createGrid_methods[] = {
-    {"_createGrid", _createGrid, METH_VARARGS, "_createGrid"},
+    {"createGrid", createGrid, METH_VARARGS, "createGrid"},
     {NULL, NULL, 0, NULL}
 };
 PyMODINIT_FUNC initcreateGrid(void) {

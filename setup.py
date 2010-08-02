@@ -25,6 +25,10 @@ clibs = [
 		'golem.grid.createGrid',
 		sources = ['golem/grid/createGrid.c'],
 	),
+	Extension(
+		'golem.grid.findWay',
+		sources = ['golem/grid/findWay.c'],
+	),
 ]
 
 # Add all the translations

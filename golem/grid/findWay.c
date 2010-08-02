@@ -7,15 +7,27 @@
 #include <Python.h>
 
 // The function find the fastest road in table
-PyObject* _findWay(PyObject* self, PyObject* args) {
-    //Load parameters
+//
+// name: _findWay
+// @param
+// int currentCoordinates[2]
+// int finishCoordinates[2]
+// table of integers (bigger than zero)
+//
+// @return
+PyObject* findWay(PyObject* self, PyObject* args) {
     PyObject *table;
+
     long currentCoordinates[2];
     long finishCoordinates[2];
+
+    //Load parameters
     if (!PyArg_ParseTuple(args, "(ii)(ii)O", &currentCoordinates[0], &currentCoordinates[1], &finishCoordinates[0], &finishCoordinates[1], &table))
         return NULL;
+
     long tableSize[2] = {PyList_Size(PyList_GetItem(table, 0)), PyList_Size(table)};
     long map[tableSize[0]][tableSize[1]];
+
     //Convert table from python list to array
     int y = 0;
     int x = 0;
@@ -25,23 +37,30 @@ PyObject* _findWay(PyObject* self, PyObject* args) {
             map[x][y] = PyInt_AsLong(PyList_GetItem(PyList_GetItem(table, y) ,x));
         }
     }
+
     //Treatment of the case the target coordinates are equal to zero
     if (map[finishCoordinates[0]][finishCoordinates[1]] == 0)
-        return Py_None;
-    //Treantment of the case the target coordinates are greater then table
+        return Py_False;
+
+    //Treatment of the case the target coordinates are greater then table
     if (finishCoordinates[0] > tableSize[0]-1 || finishCoordinates[1] > tableSize[1]-1)
-        return Py_None;
+        return Py_False;
+
     //Create python list with coordinates of the fastest way
     PyObject* theFastesWay = PyList_New(0);
+
     //Find the fastest way
     int i = 0;
     int finalWayOverZero = 0;
+
     while (!(currentCoordinates[0] == finishCoordinates[0] && currentCoordinates[1] == finishCoordinates[1])) {
         //Retrieving values and symptoms in all conditions
         long plusX;
         long plusY;
+
         int symptomX = 0;
         int symptomY = 0;
+
         if (currentCoordinates[0] != finishCoordinates[0] && currentCoordinates[0] < tableSize[0]-1 && currentCoordinates[1] != finishCoordinates[1] && currentCoordinates[1] < tableSize[1]-1) {
             plusX = map[currentCoordinates[0]+1][currentCoordinates[1]];
             plusY = map[currentCoordinates[0]][currentCoordinates[1]+1];
@@ -310,7 +329,7 @@ PyObject* _findWay(PyObject* self, PyObject* args) {
     return theFastesWay;
 }
 PyMethodDef findWay_methods[] = {
-    {"_findWay", _findWay, METH_VARARGS, "_findWay"},
+    {"findWay", findWay, METH_VARARGS, "findWay"},
     {NULL, NULL, 0, NULL}
 };
 PyMODINIT_FUNC initfindWay(void) {
