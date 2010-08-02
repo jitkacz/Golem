@@ -9,6 +9,7 @@
 // The function creating empty array
 PyObject* createGrid(PyObject* self, PyObject* args) {
     int width, height;
+    int x, y;
     if (!PyArg_ParseTuple(args, "(ii)", &width, &height))
         return NULL;
     if (width == 0 || height == 0) {
@@ -16,22 +17,21 @@ PyObject* createGrid(PyObject* self, PyObject* args) {
         return NULL;
     }
 
-
-    PyObject *list = PyList_New(0);
-    PyObject *buffer = PyList_New(0);
-    PyObject *buffer2 = PyList_New(0);
-
-    PyList_Append(buffer2, Py_None);
-
-    int x = 0;
-    for (x; x < height; ++x) {
-        PyList_Append(buffer, buffer2);
-	}
-
     x = 0;
+    PyObject *list = PyList_New(0);
+
     for (x; x < width; ++x) {
+		y = 0;
+		PyObject *buffer = PyList_New(0);
+
+		for (y; y < height; ++y) {
+			PyObject *buffer2 = PyList_New(0);
+			PyList_Append(buffer, buffer2);
+		}
+
         PyList_Append(list, buffer);
     }
+
     Py_INCREF(Py_None);
     return list;
 }
