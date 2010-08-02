@@ -58,6 +58,7 @@ class Grid(object):
 	def _createGrid(self, size):
 		self._grid = createGrid(size)
 
+
 	def _refreshGrid(self):
 		"""
 		Function to refresh objects positions on a grid.
