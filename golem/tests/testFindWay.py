@@ -42,6 +42,7 @@ class testFindWay(unittest.TestCase):
 		"""
 		OK
 		"""
+
 		table = [
 		[100, 100, 100, 100],
 		[100, 100, 100, 100],
@@ -60,6 +61,7 @@ class testFindWay(unittest.TestCase):
 		"""
 		OK
 		"""
+
 		table = [
 		[100,   0, 100, 100],
 		[100,   0, 100, 100],
@@ -78,6 +80,7 @@ class testFindWay(unittest.TestCase):
 		"""
 		OK
 		"""
+
 		table = [
 		[100,  10, 100, 100],
 		[100, 120, 100, 100],
@@ -96,6 +99,7 @@ class testFindWay(unittest.TestCase):
 		"""
 		OK
 		"""
+
 		table = [
 		[100,  200, 100, 100],
 		[100,  10, 100, 100],
@@ -114,6 +118,7 @@ class testFindWay(unittest.TestCase):
 		"""
 		Wrong - TODO #1
 		"""
+
 		table = [
 		[100,  100, 100, 100],
 		[100,    0,   0, 100],
@@ -132,6 +137,7 @@ class testFindWay(unittest.TestCase):
 		"""
 		Wrong, returns None
 		"""
+
 		table = [
 		[  0,    0,   0,   0,   0,   0,   0, 100],
 		[  0,  100, 100, 100, 100,   0,   0, 100],
@@ -146,10 +152,12 @@ class testFindWay(unittest.TestCase):
 			[[1, 2], [1, 1], [2, 1], [3, 1], [4, 1], [4, 2], [5,2], [5,3], [6,3], [7,3], [7,2], [7,1], [7,0]]
 		)
 
+
 	def test_way7(self):
 		"""
 		Infinite loop
 		"""
+
 		table = [
 		[  0,    0,   0,   0,   0,   0,   0, 100],
 		[  0,  100, 100, 100, 100,   0,   0, 100],
@@ -163,7 +171,6 @@ class testFindWay(unittest.TestCase):
 			findWay(start, finish, table),
 			[[1, 2], [1, 3], [2, 3], [3, 3], [4, 3], [5,3], [6,3], [7,3], [7,2], [7,1], [7,0]]
 		)
-
 
 	def test_way8(self):
 		"""
@@ -182,7 +189,4 @@ class testFindWay(unittest.TestCase):
 			findWay(start, finish, table),
 			[[1, 2], [1, 3], [2, 3], [3, 3], [4, 3], [5,3], [6,3], [7,3], [7,2], [7,1], [7,0]]
 		)
-
-
-
 
