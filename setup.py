@@ -36,7 +36,7 @@ setup(
 
     install_requires=[
         "PyGame>=1.9.1",
-        "numpy>=1.4.1",
+        "NumPy>=1.4.1",
     ],
 
     packages=find_packages(exclude=['ez_setup']),
