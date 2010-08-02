@@ -7,7 +7,7 @@ from random import randint
 
 from grid.Collisions import Collisions
 from grid.Collision import Collision
-from grid.Changes import Changes
+#from grid.Changes import Changes
 
 from grid.createGrid import createGrid
 from grid.findWay import findWay
@@ -40,7 +40,7 @@ class Grid(object):
 		"""	Create new instance of Grid. """
 		self.Collisions = Collisions()
 		self.Collision = Collision
-		self.Changes = Changes()
+		#self.Changes = Changes()
 
 		self.setSize(size)
 
