@@ -32,7 +32,6 @@ class testCollisons(unittest.TestCase):
 	def test_createPrimitiveFalseCollision(self):
 		collision = self.grid.Collision(self.primary, self.secondary, canGoThrough=False)
 		self.grid.Collisions.append(collision)
-		self.grid.Collisions.getCollisions()
 
 		if not self.primary.setPosition(self.secondary.getPosition()):
 			self.assertEqual(True, True)

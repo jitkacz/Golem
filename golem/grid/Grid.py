@@ -105,11 +105,11 @@ class Grid(object):
 		Function to transport the object along the shortest way.
 		"""
 		start = object.getPosition()
-		table = grid.Collisions.getPatencyOfGridList(object, self._objects, self._size)
+		table = self.Collisions.getPatencyOfGridList(object, self._objects, self._size)
 		finish = position
 
 		# TODO - make some manager of changes on grid and of the speed of objects
-		print findWay(start, finish, table)
+		#print findWay(start, finish, table)
 
 		# TODO - replace it by findWay
 		return self.teleport(object, position)

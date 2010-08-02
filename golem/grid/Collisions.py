@@ -33,7 +33,7 @@ class Collisions(object):
 		if not self._collisions.has_key(primaryObject):
 			return True
 
-		if type(secondaryObjects) != list:
+		if not type(secondaryObjects) is list:
 			secondaryObjects = [secondaryObjects]
 
 		for collision in self._collisions[primaryObject]:

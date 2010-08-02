@@ -84,7 +84,7 @@ class Pygame(object):
 			self.pygame.draw.line(self.screen, self.gridColor, (posX, 0), (posX, self.size[1]))
 
 	def _drawObjects(self):
-		for object in self.grid.getChanges():
+		for object in self.grid.getObjects(): #self.grid.getChanges():
 			image = object.getImage()
 			key = str(object)+image
 
@@ -102,7 +102,7 @@ class Pygame(object):
 
 			self.screen.blit(self.images[key], self.imagesRect[key])
 
-		self.pygame.time.wait(100)
+		self.pygame.time.wait(50)
 
 
 	def _checkEvents(self):
