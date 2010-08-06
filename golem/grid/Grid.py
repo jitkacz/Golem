@@ -1,16 +1,16 @@
 #!/usr/bin/env python
 #-*- coding:utf-8 -*-
 
-#import grid.findWay
 import time
+from libs.RepeatTimer import RepeatTimer
+
 from random import randint
 
 from grid.Collisions import Collisions
 from grid.Collision import Collision
-#from grid.Changes import Changes
+from grid.Timer import Timer
 
 from grid.createGrid import createGrid
-from grid.findWay import findWay
 
 class Grid(object):
 	"""
@@ -30,7 +30,10 @@ class Grid(object):
 
 	Collisions = None
 	Collision = None
-	Changes = None
+	Timer = None
+	tTimer = None # thread of timer
+
+	fps = 100
 
 	_size = [0, 0]
 	_grid = []
@@ -40,9 +43,16 @@ class Grid(object):
 		"""	Create new instance of Grid. """
 		self.Collisions = Collisions()
 		self.Collision = Collision
-		#self.Changes = Changes()
+		self.Timer = Timer(self)
+
+		self.tTimer = RepeatTimer(1/self.fps, self.Timer.check)
+		self.tTimer.start()
 
 		self.setSize(size)
+
+	def __del__(self):
+		""" Canceling threads """
+		self.tTimer.cancel()
 
 	def setSize(self, size):
 		""" Set new size of grid and refresh objects at grid. """
@@ -105,15 +115,13 @@ class Grid(object):
 		"""
 		Function to transport the object along the shortest way.
 		"""
-		start = object.getPosition()
-		table = self.Collisions.getPatencyOfGridList(object, self._objects, self._size)
-		finish = position
 
 		# TODO - make some manager of changes on grid and of the speed of objects
 		#print findWay(start, finish, table)
 
+		return self.Timer.add(object, position)
 		# TODO - replace it by findWay
-		return self.teleport(object, position)
+		#return self.teleport(object, position)
 
 	def teleport(self, object, position):
 		"""
