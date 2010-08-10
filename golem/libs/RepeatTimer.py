@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+#-*- coding:utf-8 -*-
+
 # Copyright (c) 2009 Geoffrey Foster
 #
 # Permission is hereby granted, free of charge, to any person
@@ -24,22 +27,47 @@
 from threading import Event, Thread
 
 class RepeatTimer(Thread):
-    def __init__(self, interval, function, iterations=0, args=[], kwargs={}):
-        Thread.__init__(self)
-        self.interval = interval
-        self.function = function
-        self.iterations = iterations
-        self.args = args
-        self.kwargs = kwargs
-        self.finished = Event()
+	"""
+	Author: Geoffrey Foster
 
-    def run(self):
-        count = 0
-        while not self.finished.is_set() and (self.iterations <= 0 or count < self.iterations):
-            self.finished.wait(self.interval)
-            if not self.finished.is_set():
-                self.function(*self.args, **self.kwargs)
-                count += 1
+	A class to repeat running some piece of code - for example
+	a function.
 
-    def cancel(self):
-        self.finished.set()
+	Using:
+	>> def myFunction():
+	>>   print "Hello, World!"
+	>>
+	>> responder = RepeatTimer(3.0, myFunction)
+	>> responder.run()
+
+	will be writing "Hello, World!" every 3 seconds.
+	"""
+
+	def __init__(self, interval, function, iterations=0, args=[], kwargs={}):
+		"""
+		Interval is in seconds.
+		"""
+		Thread.__init__(self)
+		self.interval = interval
+		self.function = function
+		self.iterations = iterations
+		self.args = args
+		self.kwargs = kwargs
+		self.finished = Event()
+
+	def run(self):
+		"""
+		For start running function in interval.
+		"""
+		count = 0
+		while not self.finished.is_set() and (self.iterations <= 0 or count < self.iterations):
+			self.finished.wait(self.interval)
+			if not self.finished.is_set():
+				self.function(*self.args, **self.kwargs)
+				count += 1
+
+	def cancel(self):
+		"""
+		To end of the loop.
+		"""
+		self.finished.set()
