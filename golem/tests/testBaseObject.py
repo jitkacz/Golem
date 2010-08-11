@@ -11,13 +11,10 @@ import grid
 class testBaseObject(unittest.TestCase):
 	def setUp(self):
 		self.object = objects.BaseObject()
-		self.grid = grid.Grid().setSize([400,400])
+		self.grid = grid.Grid().setSize([10,10])
 		self.object.setGrid(self.grid)
 
 	def test_objectsArentEqual(self):
-		"""
-		check
-		"""
 		secondObject = objects.BaseObject()
 		self.assertNotEqual(self.object, secondObject)
 
@@ -26,6 +23,5 @@ class testBaseObject(unittest.TestCase):
 
 	def test_moveObject(self):
 		self.object.moveable = True
-		for i in range(400):
-			self.object.setPosition([i, i])
+		self.object.setPosition([5, 5])
 

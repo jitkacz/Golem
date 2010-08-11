@@ -23,6 +23,7 @@ class testCollisons(unittest.TestCase):
 		self.grid = grid.Grid()
 
 		collision = self.grid.Collision(self.primary, self.secondary, canGoThrough=True)
+		self.grid.Collisions.append(collision)
 		# TODO - It is possible you some method assertTrue, I havent documentation
 		self.assertEqual(
 			True,

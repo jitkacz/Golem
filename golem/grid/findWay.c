@@ -22,19 +22,21 @@ PyObject* findWay(PyObject* self, PyObject* args) {
     if (!PyArg_ParseTuple(args, "(ii)(ii)O", &initialCoordinates[0], &initialCoordinates[1], &finishCoordinates[0], &finishCoordinates[1], &enteredTable))
         return NULL;
     // Most of the variables defining
-    long sizeX = PyList_Size(PyList_GetItem(enteredTable, 0));
-    long sizeY = PyList_Size(enteredTable);
+    long sizeX = PyList_Size(enteredTable);
+    long sizeY = PyList_Size(PyList_GetItem(enteredTable, 0));
+
     int nodeCount = 0;
     int initialNode;
     int finishNode;
     int y = 0;
     int i = 0;
+
     // Convert the given graph into a graph for the algorithm
     int convertedTable[sizeX][sizeY];
     for (y; y < sizeY; ++y) {
         int x = 0;
         for (x; x < sizeX; ++x) {
-            long value = PyInt_AsLong(PyList_GetItem(PyList_GetItem(enteredTable, y) ,x));
+            long value = PyInt_AsLong(PyList_GetItem(PyList_GetItem(enteredTable, x), y));
             if (value == 0)
                 convertedTable[x][y] = -1;
             else {
@@ -44,6 +46,7 @@ PyObject* findWay(PyObject* self, PyObject* args) {
             }
         }
     }
+
     // Treatment of error cases
     if (convertedTable[finishCoordinates[0]][finishCoordinates[1]] == -1 || convertedTable[initialCoordinates[0]][initialCoordinates[1]] == -1) {
         return Py_False;
@@ -91,6 +94,7 @@ PyObject* findWay(PyObject* self, PyObject* args) {
                 nodes[i].neighbors[3] = x;
         }
     }
+
     // Last modified graph before searching
     int graph[nodeCount][nodeCount];
     i = 0;
@@ -125,6 +129,7 @@ PyObject* findWay(PyObject* self, PyObject* args) {
     journey[initialNode] = 0;
     queue[0] = initialNode;
     ++queueSize;
+
     // Algorithm
     while (queueSize > 0) {
         int min = INFINITY_VALUE;
@@ -187,6 +192,7 @@ PyObject* findWay(PyObject* self, PyObject* args) {
             }
         }
     }
+
     // Finding the fastest way possible, and subsequently transferred to Python List
     i = finishNode;
     PyObject *buffer = PyList_New(0);
@@ -210,6 +216,7 @@ PyObject* findWay(PyObject* self, PyObject* args) {
     PyList_Append(buffer, PyInt_FromLong((long)nodes[finishNode].x));
     PyList_Append(buffer, PyInt_FromLong((long)nodes[finishNode].y));
     PyList_Append(finishWay, buffer);
+
     return finishWay;
 }
 

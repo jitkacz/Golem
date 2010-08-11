@@ -35,20 +35,19 @@ class Grid(object):
 
 	fps = 100
 
-	_size = [0, 0]
 	_grid = []
 	_objects = []
 
 	def __init__(self, size=[10,10]):
 		"""	Create new instance of Grid. """
+		self.setSize(size)
+
 		self.Collisions = Collisions()
 		self.Collision = Collision
 		self.Timer = Timer(self)
 
 		self.tTimer = RepeatTimer(1/self.fps, self.Timer.check)
 		self.tTimer.start()
-
-		self.setSize(size)
 
 	def __del__(self):
 		""" Canceling threads """

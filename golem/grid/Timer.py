@@ -39,6 +39,8 @@ class Timer(object):
 
 		self._objectsLast[object] = time
 
+		return True
+
 	def plusTime(self, object):
 		"""
 		Function to add time by objects speed
@@ -58,6 +60,7 @@ class Timer(object):
 		"""
 		Checking moves saved in the queue by actually time.
 		"""
+
 		if self._queue.has_key(self._time):
 			self._apply()
 
@@ -78,4 +81,4 @@ class Timer(object):
 		"""
 		Moving with the objects
 		"""
-		self._moveObjectToPosition(object, position)
+		self.grid._moveObjectToPosition(object, position)
