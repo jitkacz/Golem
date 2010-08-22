@@ -32,6 +32,11 @@ for i in range(30):
 while not golem.setPosition(grid.randomPosition()):
 	pass
 
+def exit(viewer):
+	grid.tTimer.cancel()
+	sys.exit()
+
+viewer.events[viewer.pygame.QUIT] = exit
 
 def nahoru():
 	x, y = golem.getPosition()
