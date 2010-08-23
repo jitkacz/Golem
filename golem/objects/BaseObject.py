@@ -79,7 +79,6 @@ class BaseObject(object):
 
 		if self.moveable:
 			if self._grid.goTo(self, position):
-				self.position = position
 				return True
 			else:
 				return False

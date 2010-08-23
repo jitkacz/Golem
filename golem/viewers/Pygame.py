@@ -102,7 +102,7 @@ class Pygame(object):
 
 			self.screen.blit(self.images[key], self.imagesRect[key])
 
-		self.pygame.time.wait(50)
+		self.pygame.time.wait(100)
 
 
 	def _checkEvents(self):
@@ -115,8 +115,11 @@ class Pygame(object):
 			if self.events.has_key(code):
 				self.events[code]()
 
-	def getPositionFromMouseClicking(self):
-		pass
+	def getMousePosition(self):
+		x, y = self.pygame.mouse.get_pos()
+
+		return (x//self.cellSize[0], y//self.cellSize[1])
+
 
 
 

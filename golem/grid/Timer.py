@@ -20,10 +20,12 @@ class Timer(object):
 		Adding move to Timer.
 		"""
 
+		self._queueClean(object)
+
 		if not self._objectsLast.has_key(object):
 			self._objectsLast[object] = 0
 
-		time = self._objectsLast[object]
+		time = self._time
 
 		start = object.getPosition()
 		table = self.grid.Collisions.getPatencyOfGridList(object, self.grid.getObjects(), self.grid.getSize())
@@ -34,18 +36,28 @@ class Timer(object):
 			return False
 
 		for cell in way:
-			self._appendToQueue(object, time, position)
+			self._appendToQueue(object, time, cell)
+			self._objectsLast[object] = time
 			time = self._objectsLast[object] + self.plusTime(object)
 
-		self._objectsLast[object] = time
-
 		return True
+
+	def _queueClean(self, object):
+		for move in self._queue:
+			for i, objects in enumerate(self._queue[move]):
+				if objects[0]==object:
+					del self._queue[move][i]
 
 	def plusTime(self, object):
 		"""
 		Function to add time by objects speed
 		"""
-		return self.grid.fps * object.speed
+		time = self.grid.fps / object.speed
+
+		if time==0:
+			time = 1
+
+		return time
 
 	def _appendToQueue(self, object, time, position):
 		"""
@@ -60,6 +72,7 @@ class Timer(object):
 		"""
 		Checking moves saved in the queue by actually time.
 		"""
+		#print self._time, sorted(self._queue)[0]
 
 		if self._queue.has_key(self._time):
 			self._apply()

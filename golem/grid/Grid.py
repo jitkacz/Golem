@@ -46,7 +46,7 @@ class Grid(object):
 		self.Collision = Collision
 		self.Timer = Timer(self)
 
-		self.tTimer = RepeatTimer(1/self.fps, self.Timer.check)
+		self.tTimer = RepeatTimer(1.0/self.fps, self.Timer.check)
 		self.tTimer.start()
 
 	def __del__(self):
@@ -151,14 +151,15 @@ class Grid(object):
 		"""
 
 		oldPos = object.getPosition()
+		self._grid[position[0]][position[1]].append(object)
+		object.position = position
 
 		for i, o in enumerate(self._grid[oldPos[0]][oldPos[1]]):
 			if o==object:
 				self._grid[oldPos[0]][oldPos[1]][i] = None
 
 		self._cleanPosition(position)
-		self._grid[position[0]][position[1]].append(object)
-		object.position = position
+
 
 	def _cleanPosition(self, position):
 		"""
