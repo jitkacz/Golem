@@ -35,6 +35,10 @@ class Lang(object):
 		self.lang.install()
 		#print self.lang._info['language-team']
 
-lang = Lang(os.path.join(config.BASEDIR, 'locale'))
-_ = lang.gettext
+try:
+	lang = Lang(os.path.join(config.BASEDIR, 'locale'))
+	_ = lang.gettext
+except:
+	def _(msg):
+		return msg
 
