@@ -10,6 +10,7 @@ class Timer(object):
 
 	_objectsLast = {}
 	_queue = {}
+	_changes = []
 
 	def __init__(self, grid):
 		# TODO - check grid instance
@@ -66,7 +67,7 @@ class Timer(object):
 		if not self._queue.has_key(time):
 			self._queue[time] = []
 
-		self._queue[time].append([object, position])
+		self._queue[time].append((object, position))
 
 	def check(self):
 		"""
@@ -94,4 +95,16 @@ class Timer(object):
 		"""
 		Moving with the objects
 		"""
+		self.addChange(object.getPosition(), position)
+
 		self.grid._moveObjectToPosition(object, position)
+
+	def addChange(self, *positions):
+		for position in positions:
+			self._changes.append(position)
+
+	def pullChanges(self):
+		ret = self._changes
+		self._changes = []
+
+		return ret

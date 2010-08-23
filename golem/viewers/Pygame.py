@@ -40,8 +40,6 @@ class Pygame(object):
 			self._setSizeByCell(cellSize)
 
 		self.screen = self.pygame.display.set_mode(self.size)
-		self.events[self.pygame.QUIT] = self.stop
-
 
 	def _setSizeByCell(self, cellSize):
 		cels, rows = self.grid.getSize()
@@ -61,9 +59,10 @@ class Pygame(object):
 		self.status = False
 
 	def _run(self):
+		self.screen.fill(self.bg)
+
 		while self.status:
 			self._checkEvents()
-			self.screen.fill(self.bg)
 
 			if self.drawGrid:
 				self._drawGrid()
@@ -84,23 +83,27 @@ class Pygame(object):
 			self.pygame.draw.line(self.screen, self.gridColor, (posX, 0), (posX, self.size[1]))
 
 	def _drawObjects(self):
-		for object in self.grid.getObjects(): #self.grid.getChanges():
-			image = object.getImage()
-			key = str(object)+image
+		for position in self.grid.Timer.pullChanges(): #self.grid.getObjects(): #self.grid.getChanges():
+			for object in self.grid.getObjects(pos=position):
+				if not object:
+					continue
 
-			posX, posY = object.getPosition()
+				image = object.getImage()
+				key = str(object)+image
 
-			if not key in self.images:
-				try:
-					self.images[key] = self.pygame.image.load(image)
-				except:
-					raise IOError('Image was not found')
-				self.imagesRect[key] = self.images[key].get_rect()
+				posX, posY = object.getPosition()
 
-			self.imagesRect[key].left = self.cellSize[0]*posX
-			self.imagesRect[key].top = self.cellSize[1]*posY
+				if not key in self.images:
+					try:
+						self.images[key] = self.pygame.image.load(image)
+					except:
+						raise IOError('Image was not found')
+					self.imagesRect[key] = self.images[key].get_rect()
 
-			self.screen.blit(self.images[key], self.imagesRect[key])
+				self.imagesRect[key].left = self.cellSize[0]*posX
+				self.imagesRect[key].top = self.cellSize[1]*posY
+
+				self.screen.blit(self.images[key], self.imagesRect[key])
 
 		self.pygame.time.wait(100)
 

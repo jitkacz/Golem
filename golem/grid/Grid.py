@@ -33,7 +33,7 @@ class Grid(object):
 	Timer = None
 	tTimer = None # thread of timer
 
-	fps = 100
+	fps = 300
 
 	_grid = []
 	_objects = []
@@ -81,7 +81,10 @@ class Grid(object):
 	def getGrid(self):
 		return self._grid
 
-	def getObjects(self):
+	def getObjects(self, pos=None):
+		if pos:
+			return self._grid[pos[0]][pos[1]]
+
 		return self._objects
 
 	def addObject(self, object, position):
@@ -94,6 +97,7 @@ class Grid(object):
 			return self._setObjectsGrid(object, position)
 
 		self._objects.append(object)
+		self.Timer.addChange(position)
 
 		if self.teleport(object, position):
 			return True
@@ -115,12 +119,20 @@ class Grid(object):
 		Function to transport the object along the shortest way.
 		"""
 
-		# TODO - make some manager of changes on grid and of the speed of objects
-		#print findWay(start, finish, table)
+		if not self.checkPosition(position):
+			return False
 
 		return self.Timer.add(object, position)
-		# TODO - replace it by findWay
-		#return self.teleport(object, position)
+
+	def checkPosition(self, position):
+		if position[0]<0 or position[1]<0:
+			return False
+
+		if position[0]>=self._size[0] or position[1]>=self._size[1]:
+			return False
+
+		return True
+
 
 	def teleport(self, object, position):
 		"""
