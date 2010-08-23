@@ -8,5 +8,18 @@ issued as a supplement for Python.
 Requieres
 =========
 - Python 2.6
-- PyGame
+- Babel
+- PyGame, SDL libraries
 - C compiler (gcc)
+
+
+How to…
+========
+
+installation PyGame to Gentoo:
+>> su -c 'USE="jpeg png" emerge pygame"
+
+compile C source codes:
+>> python setup.py build_ext --inplace
+
+	- on Windows® you must often specify compilator with option: --compiler=mingw32
