@@ -5,10 +5,8 @@ from createGrid import createGridForCollisions
 
 class Collisions(object):
 	"""
-	Static class to saving collisions and get them
+	Class to saving collisions and get them
 	"""
-
-	_collisions = {}
 
 	def __init__(self):
 		self._collisions = {}
@@ -38,7 +36,7 @@ class Collisions(object):
 
 		for collision in self._collisions[primaryObject]:
 			if (collision.secondaryObject in secondaryObjects) and \
-				(not collision.canGoThrough):
+				(not collision.result):
 					return False
 
 		return True
@@ -59,7 +57,7 @@ class Collisions(object):
 
 		collisionsSpeed = {}
 		for collision in self._collisions[primaryObject]:
-			collisionsSpeed[collision.secondaryObject] = self._getCollisionSpeed(collision)
+			collisionsSpeed[collision.secondaryObject] = self.getCollisionSpeed(collision)
 
 		# checking all objects and saving their patency
 		for object in objects:
@@ -78,8 +76,8 @@ class Collisions(object):
 		"""
 		return createGridForCollisions(size)
 
-	def _getCollisionSpeed(self, collision):
-		if not collision.canGoThrough:
+	def getCollisionSpeed(self, collision):
+		if not collision.result:
 			return 0
 		else:
 			return collision.speed

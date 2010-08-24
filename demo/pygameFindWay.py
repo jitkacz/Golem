@@ -8,29 +8,41 @@ from golem.objects import BaseObject, MoveableObject
 from golem.viewers import Pygame as Viewer
 
 grid = Grid([10,10])
-viewer = Viewer(grid, bg=(29,45,39), cellSize=[64,64])
+viewer = Viewer(grid=grid, bg=(29,45,39), cellSize=[64,64])
+
+
+# the only once moveable object - golem
+golem = MoveableObject(grid=grid, image='images/golem.png', position=(0,0))
 
 # drawing background - grass
 for i in range(10):
 	for j in range(10):
-		a = BaseObject(grid=grid, image='images/grass.png', position=(i, j))
+		BaseObject(grid=grid, image='images/grass.png', position=(i, j), weight=0)
 
-# the only once moveable object - golem
-golem = MoveableObject(grid=grid, image='images/golem.png')
+BaseObject(grid=grid, image='images/grass.png', position=(0, 0), weight=0)
+
 
 # creating X walls
-for i in range(30):
+for i in range(40):
 	grid.Collisions.append(
 		grid.Collision(
 			golem,
-			BaseObject(grid=grid, image='images/wall.png', position=grid.randomPosition()
-		),
-		canGoThrough=False)
+			BaseObject(grid=grid, image='images/wall.png', position=grid.randomPosition(ban=[golem.getPosition()]), weight=20),
+			result=False
+		)
 	)
 
-# setting good position of golem
-while not golem.setPosition(grid.randomPosition()):
-	pass
+
+# creating X swamps
+for i in range(40):
+	grid.Collisions.append(
+		grid.Collision(
+			golem,
+			BaseObject(grid=grid, image='images/swamp.jpg', position=grid.randomPosition(), weight=10),
+			result=True,
+			speed=20
+		)
+	)
 
 def exit():
 	grid.tTimer.cancel()
@@ -38,10 +50,13 @@ def exit():
 
 viewer.events[viewer.pygame.QUIT] = exit
 
+
 def click():
 	x, y = viewer.getMousePosition()
-	print golem.setPosition(x, y)
+	return golem.setPosition(x, y)
+
 viewer.events[viewer.pygame.MOUSEBUTTONUP] = click
+
 
 
 viewer.start()

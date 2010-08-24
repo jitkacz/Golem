@@ -10,6 +10,7 @@ class Timer(object):
 
 	_objectsLast = {}
 	_queue = {}
+	_changes = []
 
 	def __init__(self, grid):
 		# TODO - check grid instance
@@ -38,7 +39,7 @@ class Timer(object):
 		for cell in way:
 			self._appendToQueue(object, time, cell)
 			self._objectsLast[object] = time
-			time = self._objectsLast[object] + self.plusTime(object)
+			time = self._objectsLast[object] + self.plusTime(object, cell)
 
 		return True
 
@@ -48,11 +49,15 @@ class Timer(object):
 				if objects[0]==object:
 					del self._queue[move][i]
 
-	def plusTime(self, object):
+	def plusTime(self, object, position):
 		"""
 		Function to add time by objects speed
 		"""
-		time = self.grid.fps / object.speed
+		if object.speed==0:
+			raise Exception('Object')
+
+		time = int((self.grid.fps / object.speed) / (self.grid.getCellSpeed(object, position) / 100.0))
+
 
 		if time==0:
 			time = 1
@@ -66,7 +71,7 @@ class Timer(object):
 		if not self._queue.has_key(time):
 			self._queue[time] = []
 
-		self._queue[time].append([object, position])
+		self._queue[time].append((object, position))
 
 	def check(self):
 		"""
@@ -94,4 +99,16 @@ class Timer(object):
 		"""
 		Moving with the objects
 		"""
+		self.addChange(object.getPosition(), position)
+
 		self.grid._moveObjectToPosition(object, position)
+
+	def addChange(self, *positions):
+		for position in positions:
+			self._changes.append(position)
+
+	def pullChanges(self):
+		ret = self._changes
+		self._changes = []
+
+		return ret

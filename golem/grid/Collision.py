@@ -11,12 +11,12 @@ class Collision(object):
 	secondaryObject = None
 
 	# boolean, if primary object can go through cell with secondary object
-	canGoThrough = True
+	result = True
 
 	# speed in %
 	speed = 100
 
-	def __init__(self, primaryObject, secondaryObject, canGoThrough=True, speed=100):
+	def __init__(self, primaryObject, secondaryObject, result=True, speed=100):
 		"""
 		To creating new collision and append it to
 		Collisions dictionary.
@@ -24,15 +24,15 @@ class Collision(object):
 		self.primaryObject = primaryObject
 		self.secondaryObject = secondaryObject
 
-		self.setCanGoThrough(canGoThrough)
+		self.setResult(result)
 		self.setSpeed(speed)
 
-	def setCanGoThrough(self, value):
+	def setResult(self, value):
 		"""
 		Functions to set if collision can be passed or not.
 		"""
 		if type(value) is bool:
-			self.canGoThrough = value
+			self.result = value
 		return self
 
 	def setSpeed(self, speed):

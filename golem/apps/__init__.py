@@ -2,4 +2,4 @@
 #-*- coding:utf-8 -*-
 
 from BaseApp import BaseApp
-from PygameApp import PygameApp
+from AppFromConfigFile import AppFromConfigFile

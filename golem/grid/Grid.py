@@ -33,7 +33,7 @@ class Grid(object):
 	Timer = None
 	tTimer = None # thread of timer
 
-	fps = 100
+	fps = 300
 
 	_grid = []
 	_objects = []
@@ -81,8 +81,12 @@ class Grid(object):
 	def getGrid(self):
 		return self._grid
 
-	def getObjects(self):
-		return self._objects
+	def getObjects(self, pos=None):
+		if pos:
+			self._cleanPosition(pos)
+			return sorted(self._grid[pos[0]][pos[1]], key=lambda o: o.weight)
+
+		return sorted(self._objects, key=lambda o: o.weight)
 
 	def addObject(self, object, position):
 		"""
@@ -94,6 +98,7 @@ class Grid(object):
 			return self._setObjectsGrid(object, position)
 
 		self._objects.append(object)
+		self.Timer.addChange(position)
 
 		if self.teleport(object, position):
 			return True
@@ -115,12 +120,20 @@ class Grid(object):
 		Function to transport the object along the shortest way.
 		"""
 
-		# TODO - make some manager of changes on grid and of the speed of objects
-		#print findWay(start, finish, table)
+		if not self.checkPosition(position):
+			return False
 
 		return self.Timer.add(object, position)
-		# TODO - replace it by findWay
-		#return self.teleport(object, position)
+
+	def checkPosition(self, position):
+		if position[0]<0 or position[1]<0:
+			return False
+
+		if position[0]>=self._size[0] or position[1]>=self._size[1]:
+			return False
+
+		return True
+
 
 	def teleport(self, object, position):
 		"""
@@ -130,6 +143,9 @@ class Grid(object):
 		try:
 			objectsOnPosition = self._grid[position[0]][position[1]]
 		except IndexError:
+			return False
+
+		if not self.checkPosition(position):
 			return False
 
 		if objectsOnPosition:
@@ -151,13 +167,13 @@ class Grid(object):
 		"""
 
 		oldPos = object.getPosition()
-		self._grid[position[0]][position[1]].append(object)
 		object.position = position
 
 		for i, o in enumerate(self._grid[oldPos[0]][oldPos[1]]):
 			if o==object:
 				self._grid[oldPos[0]][oldPos[1]][i] = None
 
+		self._grid[position[0]][position[1]].append(object)
 		self._cleanPosition(position)
 
 
@@ -170,7 +186,7 @@ class Grid(object):
 			if not pos:
 				self._grid[position[0]][position[1]].pop(i)
 
-	def randomPosition(self):
+	def randomPosition(self, ban=[]):
 		"""
 		Generate random position. It doesn't check anything.
 		"""
@@ -178,4 +194,48 @@ class Grid(object):
 		x = randint(0, self._size[0]-1)
 		y = randint(0, self._size[1]-1)
 
+		if (x, y) in ban:
+			return self.randomPosition(ban=ban)
+
 		return x, y
+
+	def randomObjectPosition(self, object):
+		"""
+		Generate correct random position for object
+		"""
+		patency = self.Collisions.getPatencyOfGridList(object, self.getObjects(), self.getSize())
+
+		p = 0
+		while p==0:
+			pos = self.randomPosition()
+			p = patency[pos[0]][pos[1]]
+
+		return pos
+
+	def getCellSpeed(self, object, position):
+		"""
+		Return speed of object on the cell
+		"""
+		try:
+			collisions = self.Collisions.getCollisions()[object]
+		except:
+			return 100
+
+		slower = -1
+		objects = self.getObjects(position)
+
+		for collision in collisions:
+			if collision.secondaryObject in objects:
+				speed = self.Collisions.getCollisionSpeed(collision)
+
+				if speed<slower or slower==-1:
+					slower = speed
+
+		if slower==-1:
+			slower = 100
+
+		return slower
+
+
+
+
