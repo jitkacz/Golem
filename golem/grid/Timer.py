@@ -53,6 +53,9 @@ class Timer(object):
 		"""
 		Function to add time by objects speed
 		"""
+		if object.speed==0:
+			raise Exception('Object')
+
 		time = int((self.grid.fps / object.speed) / (self.grid.getCellSpeed(object, position) / 100.0))
 
 

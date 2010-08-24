@@ -28,20 +28,28 @@ class Pygame(object):
 
 	clock = None
 
-	def __init__(self, grid, size=[200, 200], bg=(0,0,0), cellSize=None):
-		self.pygame.init()
-
-		self.grid = grid
+	def __init__(self, grid=None, size=[200, 200], bg=(0,0,0), cellSize=None):
 		self.bg = bg
+		self.size = size
+		self.cellSize = cellSize
 
-		self.setSize(size)
+		if grid:
+			self.setGrid(grid)
 
-		if cellSize:
-			self._setSizeByCell(cellSize)
+	def setGrid(self, grid):
+		self.grid = grid
 
-		self.screen = self.pygame.display.set_mode(self.size)
+		if self.cellSize:
+			self.setSizeByCell(self.cellSize)
+		else:
+			self.setSize(self.size)
 
-	def _setSizeByCell(self, cellSize):
+	def setSizeByCell(self, cellSize):
+		print cellSize
+		if type(cellSize) is int:
+			cellSize = [cellSize]*2
+
+		self.cellSize = cellSize
 		cels, rows = self.grid.getSize()
 		self.setSize([cellSize[0]*cels, cellSize[1]*rows])
 
@@ -59,6 +67,8 @@ class Pygame(object):
 		self.status = False
 
 	def _run(self):
+		self.pygame.init()
+		self.screen = self.pygame.display.set_mode(self.size)
 		self.screen.fill(self.bg)
 
 		while self.status:

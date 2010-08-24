@@ -186,13 +186,16 @@ class Grid(object):
 			if not pos:
 				self._grid[position[0]][position[1]].pop(i)
 
-	def randomPosition(self):
+	def randomPosition(self, ban=[]):
 		"""
 		Generate random position. It doesn't check anything.
 		"""
 
 		x = randint(0, self._size[0]-1)
 		y = randint(0, self._size[1]-1)
+
+		if (x, y) in ban:
+			return self.randomPosition(ban=ban)
 
 		return x, y
 
@@ -213,7 +216,10 @@ class Grid(object):
 		"""
 		Return speed of object on the cell
 		"""
-		collisions = self.Collisions.getCollisions()[object]
+		try:
+			collisions = self.Collisions.getCollisions()[object]
+		except:
+			return 100
 
 		slower = -1
 		objects = self.getObjects(position)

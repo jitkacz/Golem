@@ -36,7 +36,7 @@ class Collisions(object):
 
 		for collision in self._collisions[primaryObject]:
 			if (collision.secondaryObject in secondaryObjects) and \
-				(not collision.canGoThrough):
+				(not collision.result):
 					return False
 
 		return True
@@ -77,7 +77,7 @@ class Collisions(object):
 		return createGridForCollisions(size)
 
 	def getCollisionSpeed(self, collision):
-		if not collision.canGoThrough:
+		if not collision.result:
 			return 0
 		else:
 			return collision.speed

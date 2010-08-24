@@ -22,7 +22,7 @@ class testCollisons(unittest.TestCase):
 	def test_createPrimitiveTrueCollision(self):
 		self.grid = grid.Grid()
 
-		collision = self.grid.Collision(self.primary, self.secondary, canGoThrough=True)
+		collision = self.grid.Collision(self.primary, self.secondary, result=True)
 		self.grid.Collisions.append(collision)
 		# TODO - It is possible you some method assertTrue, I havent documentation
 		self.assertEqual(
@@ -31,7 +31,7 @@ class testCollisons(unittest.TestCase):
 		)
 
 	def test_createPrimitiveFalseCollision(self):
-		collision = self.grid.Collision(self.primary, self.secondary, canGoThrough=False)
+		collision = self.grid.Collision(self.primary, self.secondary, result=False)
 		self.grid.Collisions.append(collision)
 
 		if not self.primary.setPosition(self.secondary.getPosition()):
@@ -58,7 +58,7 @@ class testCollisons(unittest.TestCase):
 		)
 
 	def test_checkPatencyOfGridList_FalseCollision(self):
-		collision = self.grid.Collision(self.primary, self.secondary, canGoThrough=False)
+		collision = self.grid.Collision(self.primary, self.secondary, result=False)
 		self.grid.Collisions.append(collision)
 
 		gridPatency = [[100], [0], [100]]
@@ -69,7 +69,7 @@ class testCollisons(unittest.TestCase):
 		)
 
 	def test_checkPatencyOfGridList_SlowedDownCollision(self):
-		collision = self.grid.Collision(self.primary, self.secondary, canGoThrough=True, speed=50)
+		collision = self.grid.Collision(self.primary, self.secondary, result=True, speed=50)
 		self.grid.Collisions.append(collision)
 
 		gridPatency = [[100], [50], [100]]
