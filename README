@@ -16,8 +16,8 @@ Requieres
 How to…
 ========
 
-installation PyGame to Gentoo:
->> su -c 'USE="jpeg png" emerge pygame"
+install PyGame to Gentoo:
+>> su -c 'USE="jpeg png" emerge pygame'
 
 compile C source codes:
 >> python setup.py build_ext --inplace
