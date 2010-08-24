@@ -83,9 +83,10 @@ class Grid(object):
 
 	def getObjects(self, pos=None):
 		if pos:
-			return self._grid[pos[0]][pos[1]]
+			self._cleanPosition(pos)
+			return sorted(self._grid[pos[0]][pos[1]], key=lambda o: o.weight)
 
-		return self._objects
+		return sorted(self._objects, key=lambda o: o.weight)
 
 	def addObject(self, object, position):
 		"""
@@ -144,6 +145,9 @@ class Grid(object):
 		except IndexError:
 			return False
 
+		if not self.checkPosition(position):
+			return False
+
 		if objectsOnPosition:
 			if self.Collisions.checkCollisions(object, objectsOnPosition):
 				try:
@@ -163,13 +167,13 @@ class Grid(object):
 		"""
 
 		oldPos = object.getPosition()
-		self._grid[position[0]][position[1]].append(object)
 		object.position = position
 
 		for i, o in enumerate(self._grid[oldPos[0]][oldPos[1]]):
 			if o==object:
 				self._grid[oldPos[0]][oldPos[1]][i] = None
 
+		self._grid[position[0]][position[1]].append(object)
 		self._cleanPosition(position)
 
 
@@ -191,3 +195,41 @@ class Grid(object):
 		y = randint(0, self._size[1]-1)
 
 		return x, y
+
+	def randomObjectPosition(self, object):
+		"""
+		Generate correct random position for object
+		"""
+		patency = self.Collisions.getPatencyOfGridList(object, self.getObjects(), self.getSize())
+
+		p = 0
+		while p==0:
+			pos = self.randomPosition()
+			p = patency[pos[0]][pos[1]]
+
+		return pos
+
+	def getCellSpeed(self, object, position):
+		"""
+		Return speed of object on the cell
+		"""
+		collisions = self.Collisions.getCollisions()[object]
+
+		slower = -1
+		objects = self.getObjects(position)
+
+		for collision in collisions:
+			if collision.secondaryObject in objects:
+				speed = self.Collisions.getCollisionSpeed(collision)
+
+				if speed<slower or slower==-1:
+					slower = speed
+
+		if slower==-1:
+			slower = 100
+
+		return slower
+
+
+
+

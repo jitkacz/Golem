@@ -39,7 +39,7 @@ class Timer(object):
 		for cell in way:
 			self._appendToQueue(object, time, cell)
 			self._objectsLast[object] = time
-			time = self._objectsLast[object] + self.plusTime(object)
+			time = self._objectsLast[object] + self.plusTime(object, cell)
 
 		return True
 
@@ -49,11 +49,12 @@ class Timer(object):
 				if objects[0]==object:
 					del self._queue[move][i]
 
-	def plusTime(self, object):
+	def plusTime(self, object, position):
 		"""
 		Function to add time by objects speed
 		"""
-		time = self.grid.fps / object.speed
+		time = int((self.grid.fps / object.speed) / (self.grid.getCellSpeed(object, position) / 100.0))
+
 
 		if time==0:
 			time = 1

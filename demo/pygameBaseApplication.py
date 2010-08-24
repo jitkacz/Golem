@@ -29,10 +29,10 @@ for i in range(30):
 	)
 
 # setting good position of golem
-while not golem.setPosition(grid.randomPosition()):
+while not golem.setRandomPosition():
 	pass
 
-def exit(viewer):
+def exit():
 	grid.tTimer.cancel()
 	sys.exit()
 

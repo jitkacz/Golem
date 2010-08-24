@@ -83,15 +83,10 @@ class Pygame(object):
 			self.pygame.draw.line(self.screen, self.gridColor, (posX, 0), (posX, self.size[1]))
 
 	def _drawObjects(self):
-		for position in self.grid.Timer.pullChanges(): #self.grid.getObjects(): #self.grid.getChanges():
+		for position in self.grid.Timer.pullChanges():
 			for object in self.grid.getObjects(pos=position):
-				if not object:
-					continue
-
 				image = object.getImage()
 				key = str(object)+image
-
-				posX, posY = object.getPosition()
 
 				if not key in self.images:
 					try:
@@ -100,8 +95,8 @@ class Pygame(object):
 						raise IOError('Image was not found')
 					self.imagesRect[key] = self.images[key].get_rect()
 
-				self.imagesRect[key].left = self.cellSize[0]*posX
-				self.imagesRect[key].top = self.cellSize[1]*posY
+				self.imagesRect[key].left = self.cellSize[0]*position[0]
+				self.imagesRect[key].top = self.cellSize[1]*position[1]
 
 				self.screen.blit(self.images[key], self.imagesRect[key])
 

@@ -33,19 +33,24 @@ class BaseObject(object):
 
 	name = ''
 	speed = 0
+	weight = 100
 
 	moveable = False
-	position = [0, 0]
+	position = (0, 0)
 
 	_image = None
 	_visible = True
 	_grid = None
 
 
-	def __init__(self, grid=None, image=None, position=(0,0)):
+	def __init__(self, grid=None, image=None, position=(0,0), **keys):
 		"""
 		To create new instance of BaseObject.
 		"""
+
+		for key in keys:
+			self.__dict__[key] = keys[key]
+
 		# TODO - check if grid is instance of Grid
 		if grid:
 			self.setGrid(grid, position)
@@ -93,5 +98,8 @@ class BaseObject(object):
 
 	def getImage(self):
 		return self._image
+
+	def setRandomPosition(self):
+		return self.setPosition(self._grid.randomObjectPosition(self))
 
 
