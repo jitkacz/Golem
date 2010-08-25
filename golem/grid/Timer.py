@@ -53,6 +53,7 @@ class Timer(object):
 		"""
 		Function to add time by objects speed
 		"""
+		object.speed = int(object.speed)
 		if object.speed==0:
 			raise Exception('Object need a speed to move.')
 

@@ -81,8 +81,12 @@ class AppFromConfigFile(apps.BaseApp):
 		return dict
 
 	def run(self):
+		self.saveEvents()
 		self.viewer.start()
 		self.quit()
+
+	def saveEvents(self):
+		pass
 
 	def setApp(self, **params):
 		for item in params['items']:
@@ -150,6 +154,11 @@ class AppFromConfigFile(apps.BaseApp):
 			self.grid.Timer.addChange(pos)
 			object.position = pos
 
+		object.set(params['items'])
+
+		if params['items'].has_key('control'):
+			self.setControl(object=object, control=params['items'].pop('control'))
+
 		self._objects[name] = object
 
 
@@ -159,7 +168,10 @@ class AppFromConfigFile(apps.BaseApp):
 		pass
 
 	def setControl(self, **params):
-		controlName = params['items']['control'] or params['control']
+		if not params.has_key('items'):
+			params['items'] = params
+
+		controlName = params['items']['control']
 
 		try:
 			exec('import controls.'+controlName+' as Control')
@@ -172,6 +184,9 @@ class AppFromConfigFile(apps.BaseApp):
 			c.setObject(params['items']['object'])
 
 		self.viewer.events.update(c.getList())
+
+		for event in c.getList():
+			self.viewer.eventsControls[event] = c
 
 	def quit(self):
 		self.viewer.stop()

@@ -2,5 +2,7 @@
 #-*- coding:utf-8 -*-
 
 from BaseControl import BaseControl
-from PygameAppControl import PygameAppControl
+
+from MouseClicking import MouseClicking
+from AppControl import AppControl
 

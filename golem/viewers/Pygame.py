@@ -22,6 +22,8 @@ class Pygame(object):
 	gridColor = (0, 0, 0)
 
 	events = {}
+	eventsDict = {}
+	eventsControls = {}
 
 	images = {}
 	imagesRect = {}
@@ -33,8 +35,17 @@ class Pygame(object):
 		self.size = size
 		self.cellSize = cellSize
 
+		self.setEvents()
+
 		if grid:
 			self.setGrid(grid)
+
+	def setEvents(self):
+		self.eventsDict = {
+			'onQuit' : self.pygame.QUIT,
+			'onButtonUp' : self.pygame.MOUSEBUTTONUP,
+			'onButtonDown' : self.pygame.MOUSEBUTTONDOWN,
+		}
 
 	def setGrid(self, grid):
 		self.grid = grid
@@ -112,16 +123,35 @@ class Pygame(object):
 
 		self.pygame.time.wait(100)
 
-
 	def _checkEvents(self):
+		events = self.eventsFromDict(self.events)
+
 		for event in self.pygame.event.get():
 			code = event.type
 
 			if event.type==self.pygame.KEYUP:
 				code = event.key
 
-			if self.events.has_key(code):
-				self.events[code]()
+			if events.has_key(code):
+				events[code][1](viewer=self, grid=self.grid, control=events[code][0])
+
+	_tmpEvents = {}
+	_tmpEventsDict = {}
+	_tmpEventsFromDict = {}
+	def eventsFromDict(self, events):
+		if events==self._tmpEvents and self.eventsDict==self._tmpEventsDict:
+			return self._tmpEventsFromDict
+
+		ret = {}
+		for type in self.eventsDict:
+			if self.events.has_key(type):
+				ret[self.eventsDict[type]] = (self.eventsControls[type], self.events[type])
+
+		self._tmpEvents = events
+		self._tmpEventsDict = self.eventsDict
+		self._tmpEventsFromDict = ret
+
+		return ret
 
 	def getMousePosition(self):
 		x, y = self.pygame.mouse.get_pos()
