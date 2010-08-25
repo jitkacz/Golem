@@ -23,6 +23,11 @@ class GroupOfObjects(object):
 		if image:
 			self.setImage(image)
 
+	def __setattr__(self, name, value):
+		self.__dict__[name] = value
+		for o in self._objects:
+			o.set({name:value})
+
 	def setGrid(self, grid):
 		self._grid = grid
 		self.drawObjects()

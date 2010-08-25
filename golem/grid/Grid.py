@@ -88,6 +88,12 @@ class Grid(object):
 
 		return sorted(self._objects, key=lambda o: o.weight)
 
+	def getObjectsIDFromPosition(self,position):
+		ret = []
+		for o in self._grid[position[0]][position[1]]:
+			ret.append(o.id())
+		return ret
+
 	def addObject(self, object, position):
 		"""
 		Function to add object to grid. If object has not set
@@ -217,12 +223,12 @@ class Grid(object):
 		Return speed of object on the cell
 		"""
 		try:
-			collisions = self.Collisions.getCollisions()[object]
+			collisions = self.Collisions.getCollisions()[object.id()]
 		except:
 			return 100
 
 		slower = -1
-		objects = self.getObjects(position)
+		objects = self.getObjectsIDFromPosition(position)
 
 		for collision in collisions:
 			if collision.secondaryObjectID in objects:

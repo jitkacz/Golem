@@ -20,7 +20,6 @@ class Collisions(object):
 			self._collisions[collision.primaryObjectID].append(collision)
 		else:
 			self._collisions[collision.primaryObjectID] = [collision]
-		print self._collisions
 
 
 	def checkCollisions(self, primaryObject, secondaryObjects):

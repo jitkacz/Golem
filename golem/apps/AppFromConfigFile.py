@@ -11,6 +11,8 @@ import grid.Grid
 
 
 class AppFromConfigFile(apps.BaseApp):
+	title = ''
+
 	_config = None
 	_objects = {}
 
@@ -120,6 +122,8 @@ class AppFromConfigFile(apps.BaseApp):
 		if items.has_key('drawgrid'):
 			if items['drawgrid'].lower()=="true":
 				self.viewer.drawGrid = True
+
+		self.viewer.title = self.title
 
 
 

@@ -29,6 +29,7 @@ class Pygame(object):
 	imagesRect = {}
 
 	clock = None
+	title = None
 
 	def __init__(self, grid=None, size=[200, 200], bg=(0,0,0), cellSize=None):
 		self.bg = bg
@@ -78,6 +79,8 @@ class Pygame(object):
 
 	def _run(self):
 		self.pygame.init()
+		if self.title:
+			self.pygame.display.set_caption(self.title)
 		self.screen = self.pygame.display.set_mode(self.size)
 		self.screen.fill(self.bg)
 
@@ -157,7 +160,6 @@ class Pygame(object):
 		x, y = self.pygame.mouse.get_pos()
 
 		return (x//self.cellSize[0], y//self.cellSize[1])
-
 
 
 
