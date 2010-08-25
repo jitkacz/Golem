@@ -27,6 +27,7 @@ class Timer(object):
 			self._objectsLast[object] = 0
 
 		time = self._time
+		self._objectsLast[object] = time
 
 		start = object.getPosition()
 		table = self.grid.Collisions.getPatencyOfGridList(object, self.grid.getObjects(), self.grid.getSize())
@@ -37,9 +38,10 @@ class Timer(object):
 			return False
 
 		for cell in way:
+			time = self._objectsLast[object] + self.plusTime(object, cell)
 			self._appendToQueue(object, time, cell)
 			self._objectsLast[object] = time
-			time = self._objectsLast[object] + self.plusTime(object, cell)
+
 
 		return True
 

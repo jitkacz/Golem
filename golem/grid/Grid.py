@@ -90,6 +90,7 @@ class Grid(object):
 
 	def getObjectsIDFromPosition(self,position):
 		ret = []
+		self._cleanPosition(position)
 		for o in self._grid[position[0]][position[1]]:
 			ret.append(o.id())
 		return ret
