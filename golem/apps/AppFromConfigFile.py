@@ -158,14 +158,36 @@ class AppFromConfigFile(apps.BaseApp):
 
 		if params['items'].has_key('control'):
 			self.setControl(object=object, control=params['items'].pop('control'))
+		if params['items'].has_key('weight'):
+			object.weight = int(params['items'].pop('weight'))
 
 		self._objects[name] = object
 
-
-
-
 	def setCollision(self, **params):
-		pass
+		primaryName, secondaryName = params['option'].split(':')
+
+		primaryObject = self._objects[primaryName]
+		secondaryObject = self._objects[secondaryName]
+
+		result = True
+		speed = 100
+
+		if params['items'].has_key('result'):
+			if params['items']['result'].lower()=="false":
+				result = False
+				speed = 0
+
+		if params['items'].has_key('speed'):
+			speed = int(params['items']['speed'])
+
+		self.grid.Collisions.append(
+			self.grid.Collision(
+				primaryObject,
+				secondaryObject,
+				result=result,
+				speed=speed
+			)
+		)
 
 	def setControl(self, **params):
 		if not params.has_key('items'):

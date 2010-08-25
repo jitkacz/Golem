@@ -42,6 +42,8 @@ class BaseObject(object):
 	_visible = True
 	_grid = None
 
+	uid = None
+
 
 	def __init__(self, grid=None, image=None, position=(0,0), **keys):
 		"""
@@ -57,6 +59,12 @@ class BaseObject(object):
 
 		if image:
 			self.setImage(image)
+
+	def id(self):
+		if not self.uid:
+			return self
+		else:
+			return self.uid
 
 	def setGrid(self, grid, position=(0,0)):
 		"""

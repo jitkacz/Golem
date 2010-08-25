@@ -6,9 +6,9 @@ class Collision(object):
 	Public class for creating types of collisions.
 	"""
 
-    # Instances of objects
-	primaryObject = None
-	secondaryObject = None
+    # ID of objects
+	primaryObjectID = None
+	secondaryObjectID = None
 
 	# boolean, if primary object can go through cell with secondary object
 	result = True
@@ -21,8 +21,8 @@ class Collision(object):
 		To creating new collision and append it to
 		Collisions dictionary.
 		"""
-		self.primaryObject = primaryObject
-		self.secondaryObject = secondaryObject
+		self.primaryObjectID = primaryObject.id()
+		self.secondaryObjectID = secondaryObject.id()
 
 		self.setResult(result)
 		self.setSpeed(speed)

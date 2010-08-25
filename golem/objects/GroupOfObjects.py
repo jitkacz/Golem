@@ -27,6 +27,9 @@ class GroupOfObjects(object):
 		self._grid = grid
 		self.drawObjects()
 
+	def id(self):
+		return self
+
 	def drawObjects(self):
 		if not self.positions:
 			self.positions = []
@@ -38,6 +41,7 @@ class GroupOfObjects(object):
 
 		for position in self.positions:
 			o = objects.BaseObject(grid=self._grid, image=self._image, position=position)
+			o.uid = self.id()
 			self._objects.append(o)
 
 	def positionsToList(self, str):

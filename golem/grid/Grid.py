@@ -225,7 +225,7 @@ class Grid(object):
 		objects = self.getObjects(position)
 
 		for collision in collisions:
-			if collision.secondaryObject in objects:
+			if collision.secondaryObjectID in objects:
 				speed = self.Collisions.getCollisionSpeed(collision)
 
 				if speed<slower or slower==-1:
