@@ -101,7 +101,7 @@ class Timer(object):
 		"""
 		self.addChange(object.getPosition(), position)
 
-		self.grid._moveObjectToPosition(object, position)
+		self.grid.moveObjectToPosition(object, position)
 
 	def addChange(self, *positions):
 		for position in positions:
