@@ -164,6 +164,7 @@ class Grid(object):
 			else:
 				return False
 
+		self.Timer.addChange(position, object.getPosition())
 		self.moveObjectToPosition(object, position)
 		return True
 
@@ -181,6 +182,7 @@ class Grid(object):
 				self._grid[oldPos[0]][oldPos[1]][i] = None
 
 		self._grid[position[0]][position[1]].append(object)
+		self.Collisions.runOnCollision(object, self._grid[position[0]][position[1]])
 		self._cleanPosition(position)
 
 

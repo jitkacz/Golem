@@ -33,15 +33,22 @@ class Collisions(object):
 			return True
 
 		if not type(secondaryObjects) is list:
-			secondaryObjects = [secondaryObjects.id()]
+			secondaryObjects = [secondaryObjects]
 
+		secondaryObjects = self.objectsInstancesToIDs(secondaryObjects)
 
 		for collision in self._collisions[primaryObject.id()]:
-			if (collision.secondaryObject.id() in secondaryObjects) and \
+			if (collision.secondaryObjectID in secondaryObjects) and \
 				(not collision.result):
 					return False
 
 		return True
+
+	def objectsInstancesToIDs(self, objects):
+		ret = []
+		for o in objects:
+			ret.append(o.id())
+		return ret
 
 	def getPatencyOfGridList(self, primaryObject, objects, gridSize):
 		"""
@@ -86,4 +93,13 @@ class Collisions(object):
 
 	def getCollisions(self):
 		return self._collisions
+
+	def runOnCollision(self, object, objects):
+		if not self._collisions.has_key(object.id()):
+			return False
+
+		for collision in self._collisions[object.id()]:
+			if (collision.secondaryObjectID in objects):
+				collision.onCollision(primary=object, secondary=collision.secondaryObject)
+
 

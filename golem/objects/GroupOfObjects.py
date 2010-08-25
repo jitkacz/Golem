@@ -13,6 +13,7 @@ class GroupOfObjects(object):
 
 	count = 0
 	positions = None
+	name = ''
 
 	def __init__(self, grid=None, image=None, **params):
 		self._objects = []
@@ -47,6 +48,7 @@ class GroupOfObjects(object):
 		for position in self.positions:
 			o = objects.BaseObject(grid=self._grid, image=self._image, position=position)
 			o.uid = self.id()
+			o.name = self.name
 			self._objects.append(o)
 
 	def positionsToList(self, str):

@@ -2,6 +2,7 @@
 #-*- coding:utf-8 -*-
 
 import sys
+import re
 from os import path
 
 import apps.BaseApp
@@ -10,11 +11,15 @@ import ConfigParser
 import grid.Grid
 
 
+patternFunction = re.compile("[a-zA-Z]*")
+
 class AppFromConfigFile(apps.BaseApp):
 	title = ''
 
 	_config = None
 	_objects = {}
+
+	collisions = {}
 
 	def __init__(self):
 
@@ -28,9 +33,13 @@ class AppFromConfigFile(apps.BaseApp):
 		}
 
 		self.init()
+		self.saveCollisions()
 		self.loadConfig(self.config)
 
 	def init(self):
+		pass
+
+	def saveCollisions():
 		pass
 
 	def loadConfig(self, file):
@@ -83,9 +92,13 @@ class AppFromConfigFile(apps.BaseApp):
 		return dict
 
 	def run(self):
+		self.beforeRun()
 		self.saveEvents()
 		self.viewer.start()
 		self.quit()
+
+	def beforeRun(self):
+		pass
 
 	def saveEvents(self):
 		pass
@@ -128,7 +141,6 @@ class AppFromConfigFile(apps.BaseApp):
 
 
 	def setObject(self, **params):
-		name = params['option']
 		objectType = params['items'].pop('type')
 
 		try:
@@ -137,6 +149,7 @@ class AppFromConfigFile(apps.BaseApp):
 			raise Exception('Can\'t load object type '+objectType, sys.exc_info())
 
 		object = Object(grid=self.grid)
+		object.name = params['option']
 
 		if params['items'].has_key('image'):
 			object.setImage(path.join(self.images_dir, params['items'].pop('image')))
@@ -154,7 +167,7 @@ class AppFromConfigFile(apps.BaseApp):
 					y = self.grid.getSize()[1]-1
 				pos = (int(x), int(y))
 
-			self.grid.teleport(object, pos)
+			print self.grid.teleport(object, pos)
 			self.grid.Timer.addChange(pos)
 			object.position = pos
 
@@ -165,7 +178,7 @@ class AppFromConfigFile(apps.BaseApp):
 		if params['items'].has_key('weight'):
 			object.weight = int(params['items'].pop('weight'))
 
-		self._objects[name] = object
+		self._objects[object.name] = object
 
 	def setCollision(self, **params):
 		primaryName, secondaryName = params['option'].split(':')
@@ -175,6 +188,7 @@ class AppFromConfigFile(apps.BaseApp):
 
 		result = True
 		speed = 100
+		onCollision = None
 
 		if params['items'].has_key('result'):
 			if params['items']['result'].lower()=="false":
@@ -184,12 +198,19 @@ class AppFromConfigFile(apps.BaseApp):
 		if params['items'].has_key('speed'):
 			speed = int(params['items']['speed'])
 
+		if params['items'].has_key('oncollision'):
+			name = params['items'].pop('oncollision')
+			if self.collisions.has_key(name):
+				onCollision = self.collisions[name]
+
+
 		self.grid.Collisions.append(
 			self.grid.Collision(
 				primaryObject,
 				secondaryObject,
 				result=result,
-				speed=speed
+				speed=speed,
+				onCollision=onCollision
 			)
 		)
 
