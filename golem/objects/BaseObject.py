@@ -74,6 +74,12 @@ class BaseObject(object):
 	def getGrid(self):
 		return self._grid
 
+	def set(self, values):
+		if not type(values) is dict:
+			return False
+
+		self.__dict__.update(values)
+
 	def setPosition(self, position, y=None):
 		"""
 		Change objects position. If object is not moveable

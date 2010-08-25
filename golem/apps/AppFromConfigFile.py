@@ -150,7 +150,6 @@ class AppFromConfigFile(apps.BaseApp):
 			self.grid.Timer.addChange(pos)
 			object.position = pos
 
-		print object.getPosition()
 		self._objects[name] = object
 
 
