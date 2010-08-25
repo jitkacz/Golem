@@ -34,7 +34,7 @@ def sendPage(request, socket, name):
     IDCounter += 1
   else: #If client is already known
     HTTPHead = "HTTP/1.1 200 OK\nContent-Type: text/html; charset=UTF-8\nContent-Length: "+str(len(page))+"\n\n"   
-  socket.send(HTTPHead)
+  socket.send(HTTPHead) #Send actual header and HTML page
   socket.send(page)
 
 if __name__=="__main__":   
