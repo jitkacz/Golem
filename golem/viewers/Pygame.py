@@ -19,7 +19,7 @@ class Pygame(object):
 
 	grid = None
 	drawGrid = False
-	gridColor = (255, 255, 255)
+	gridColor = (0, 0, 0)
 
 	events = {}
 
@@ -45,7 +45,6 @@ class Pygame(object):
 			self.setSize(self.size)
 
 	def setSizeByCell(self, cellSize):
-		print cellSize
 		if type(cellSize) is int:
 			cellSize = [cellSize]*2
 
@@ -96,19 +95,20 @@ class Pygame(object):
 		for position in self.grid.Timer.pullChanges():
 			for object in self.grid.getObjects(pos=position):
 				image = object.getImage()
-				key = str(object)+image
+				if image:
+					key = str(object)+image
 
-				if not key in self.images:
-					try:
-						self.images[key] = self.pygame.image.load(image)
-					except:
-						raise IOError('Image was not found')
-					self.imagesRect[key] = self.images[key].get_rect()
+					if not key in self.images:
+						try:
+							self.images[key] = self.pygame.image.load(image)
+						except:
+							raise IOError('Image '+image+' was not found.')
+						self.imagesRect[key] = self.images[key].get_rect()
 
-				self.imagesRect[key].left = self.cellSize[0]*position[0]
-				self.imagesRect[key].top = self.cellSize[1]*position[1]
+					self.imagesRect[key].left = self.cellSize[0]*position[0]
+					self.imagesRect[key].top = self.cellSize[1]*position[1]
 
-				self.screen.blit(self.images[key], self.imagesRect[key])
+					self.screen.blit(self.images[key], self.imagesRect[key])
 
 		self.pygame.time.wait(100)
 

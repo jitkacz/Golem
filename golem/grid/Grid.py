@@ -157,10 +157,10 @@ class Grid(object):
 			else:
 				return False
 
-		self._moveObjectToPosition(object, position)
+		self.moveObjectToPosition(object, position)
 		return True
 
-	def _moveObjectToPosition(self, object, position):
+	def moveObjectToPosition(self, object, position):
 		"""
 		Change object position - remove it from old and append
 		to the new.

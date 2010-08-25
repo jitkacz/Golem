@@ -2,14 +2,17 @@
 #-*- coding:utf-8 -*-
 
 import sys
+from os import path
 
 import apps.BaseApp
 import ConfigParser
 
 import grid.Grid
 
+
 class AppFromConfigFile(apps.BaseApp):
 	_config = None
+	_objects = {}
 
 	def __init__(self):
 
@@ -79,7 +82,7 @@ class AppFromConfigFile(apps.BaseApp):
 
 	def run(self):
 		self.viewer.start()
-		pass
+		self.quit()
 
 	def setApp(self, **params):
 		for item in params['items']:
@@ -97,11 +100,11 @@ class AppFromConfigFile(apps.BaseApp):
 
 		try:
 			viewerName = items.pop('viewer')
-			exec('import viewers.'+viewerName+' as viewer')
+			exec('import viewers.'+viewerName+' as Viewer')
 		except:
-			raise Exception('Can\'t load viewer '+viewerName)
+			raise Exception('Can\'t load viewer '+viewerName, sys.exc_info())
 
-		self.viewer = viewer()
+		self.viewer = Viewer()
 		self.viewer.grid = self.grid
 
 		if items.has_key('cellsize'):
@@ -110,9 +113,48 @@ class AppFromConfigFile(apps.BaseApp):
 		# convert strings in list to integers
 		self.viewer.bg = [int(i) for i in items['bg'].split(',')]
 
+		if items.has_key('drawgrid'):
+			if items['drawgrid'].lower()=="true":
+				self.viewer.drawGrid = True
+
+
 
 	def setObject(self, **params):
-		pass
+		name = params['option']
+		objectType = params['items'].pop('type')
+
+		try:
+			exec('import objects.'+objectType+' as Object')
+		except:
+			raise Exception('Can\'t load object type '+objectType, sys.exc_info())
+
+		object = Object(grid=self.grid)
+
+		if params['items'].has_key('image'):
+			object.setImage(path.join(self.images_dir, params['items'].pop('image')))
+		if params['items'].has_key('position'):
+			pos = params['items'].pop('position')
+
+			if pos=="random":
+				pos = self.grid.randomPosition()
+			else:
+				x, y = pos.split(',')
+
+				if x=="max":
+					x = self.grid.getSize()[0]-1
+				if y=="max":
+					y = self.grid.getSize()[1]-1
+				pos = (int(x), int(y))
+
+			self.grid.teleport(object, pos)
+			self.grid.Timer.addChange(pos)
+			object.position = pos
+
+		print object.getPosition()
+		self._objects[name] = object
+
+
+
 
 	def setCollision(self, **params):
 		pass

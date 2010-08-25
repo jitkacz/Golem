@@ -38,7 +38,7 @@ class BaseObject(object):
 	moveable = False
 	position = (0, 0)
 
-	_image = None
+	_image = ''
 	_visible = True
 	_grid = None
 
