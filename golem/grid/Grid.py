@@ -88,6 +88,13 @@ class Grid(object):
 
 		return sorted(self._objects, key=lambda o: o.weight)
 
+	def getObjectsIDFromPosition(self,position):
+		ret = []
+		self._cleanPosition(position)
+		for o in self._grid[position[0]][position[1]]:
+			ret.append(o.id())
+		return ret
+
 	def addObject(self, object, position):
 		"""
 		Function to add object to grid. If object has not set
@@ -157,6 +164,7 @@ class Grid(object):
 			else:
 				return False
 
+		self.Timer.addChange(position, object.getPosition())
 		self.moveObjectToPosition(object, position)
 		return True
 
@@ -174,6 +182,7 @@ class Grid(object):
 				self._grid[oldPos[0]][oldPos[1]][i] = None
 
 		self._grid[position[0]][position[1]].append(object)
+		self.Collisions.runOnCollision(object, self._grid[position[0]][position[1]])
 		self._cleanPosition(position)
 
 
@@ -217,15 +226,15 @@ class Grid(object):
 		Return speed of object on the cell
 		"""
 		try:
-			collisions = self.Collisions.getCollisions()[object]
+			collisions = self.Collisions.getCollisions()[object.id()]
 		except:
 			return 100
 
 		slower = -1
-		objects = self.getObjects(position)
+		objects = self.getObjectsIDFromPosition(position)
 
 		for collision in collisions:
-			if collision.secondaryObject in objects:
+			if collision.secondaryObjectID in objects:
 				speed = self.Collisions.getCollisionSpeed(collision)
 
 				if speed<slower or slower==-1:

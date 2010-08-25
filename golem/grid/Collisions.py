@@ -16,10 +16,11 @@ class Collisions(object):
 		To append an instance of collision to dictionary.
 		"""
 
-		if self._collisions.has_key(collision.primaryObject):
-			self._collisions[collision.primaryObject].append(collision)
+		if self._collisions.has_key(collision.primaryObjectID):
+			self._collisions[collision.primaryObjectID].append(collision)
 		else:
-			self._collisions[collision.primaryObject] = [collision]
+			self._collisions[collision.primaryObjectID] = [collision]
+
 
 	def checkCollisions(self, primaryObject, secondaryObjects):
 		"""
@@ -28,18 +29,26 @@ class Collisions(object):
 		returns False.
 		"""
 
-		if not self._collisions.has_key(primaryObject):
+		if not self._collisions.has_key(primaryObject.id()):
 			return True
 
 		if not type(secondaryObjects) is list:
 			secondaryObjects = [secondaryObjects]
 
-		for collision in self._collisions[primaryObject]:
-			if (collision.secondaryObject in secondaryObjects) and \
+		secondaryObjects = self.objectsInstancesToIDs(secondaryObjects)
+
+		for collision in self._collisions[primaryObject.id()]:
+			if (collision.secondaryObjectID in secondaryObjects) and \
 				(not collision.result):
 					return False
 
 		return True
+
+	def objectsInstancesToIDs(self, objects):
+		ret = []
+		for o in objects:
+			ret.append(o.id())
+		return ret
 
 	def getPatencyOfGridList(self, primaryObject, objects, gridSize):
 		"""
@@ -49,24 +58,24 @@ class Collisions(object):
 		this cell.
 		"""
 
-		if not self._collisions.has_key(primaryObject):
+		if not self._collisions.has_key(primaryObject.id()):
 			return [[100]*gridSize[1]]*gridSize[0]
 
 		# create empty patency grid
 		patency = self._createEmptyPatencyGrid(gridSize)
 
 		collisionsSpeed = {}
-		for collision in self._collisions[primaryObject]:
-			collisionsSpeed[collision.secondaryObject] = self.getCollisionSpeed(collision)
+		for collision in self._collisions[primaryObject.id()]:
+			collisionsSpeed[collision.secondaryObjectID] = self.getCollisionSpeed(collision)
 
 		# checking all objects and saving their patency
 		for object in objects:
-			if collisionsSpeed.has_key(object):
+			if collisionsSpeed.has_key(object.id()):
 				pos = object.getPosition()
 
 				# saving the smallest patency
-				if patency[pos[0]][pos[1]] > collisionsSpeed[object]:
-					patency[pos[0]][pos[1]] = collisionsSpeed[object]
+				if patency[pos[0]][pos[1]] > collisionsSpeed[object.id()]:
+					patency[pos[0]][pos[1]] = collisionsSpeed[object.id()]
 
 		return patency
 
@@ -84,4 +93,13 @@ class Collisions(object):
 
 	def getCollisions(self):
 		return self._collisions
+
+	def runOnCollision(self, object, objects):
+		if not self._collisions.has_key(object.id()):
+			return False
+
+		for collision in self._collisions[object.id()]:
+			if (collision.secondaryObjectID in objects):
+				collision.onCollision(primary=object, secondary=collision.secondaryObject)
+
 

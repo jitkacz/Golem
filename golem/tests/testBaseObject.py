@@ -23,5 +23,6 @@ class testBaseObject(unittest.TestCase):
 
 	def test_moveObject(self):
 		self.object.moveable = True
+		self.object.speed = 100
 		self.object.setPosition([5, 5])
 

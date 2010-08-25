@@ -6,13 +6,13 @@ import sys
 import pygame
 import controls.BaseControl
 
-class PygameAppControl(controls.BaseControl):
+class AppControl(controls.BaseControl):
 	def setEvents(self):
 		self.events = {
-			pygame.QUIT : self.quit
+			'onQuit' : self.quit,
 		}
 
-	def quit(self):
+	def quit(self, **params):
 		self.app.quit()
 
 

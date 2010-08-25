@@ -2,6 +2,7 @@
 #-*- coding:utf-8 -*-
 
 import sys
+import re
 from os import path
 
 import apps.BaseApp
@@ -10,9 +11,15 @@ import ConfigParser
 import grid.Grid
 
 
+patternFunction = re.compile("[a-zA-Z]*")
+
 class AppFromConfigFile(apps.BaseApp):
+	title = ''
+
 	_config = None
 	_objects = {}
+
+	collisions = {}
 
 	def __init__(self):
 
@@ -26,9 +33,13 @@ class AppFromConfigFile(apps.BaseApp):
 		}
 
 		self.init()
+		self.saveCollisions()
 		self.loadConfig(self.config)
 
 	def init(self):
+		pass
+
+	def saveCollisions():
 		pass
 
 	def loadConfig(self, file):
@@ -81,8 +92,16 @@ class AppFromConfigFile(apps.BaseApp):
 		return dict
 
 	def run(self):
+		self.beforeRun()
+		self.saveEvents()
 		self.viewer.start()
 		self.quit()
+
+	def beforeRun(self):
+		pass
+
+	def saveEvents(self):
+		pass
 
 	def setApp(self, **params):
 		for item in params['items']:
@@ -117,10 +136,11 @@ class AppFromConfigFile(apps.BaseApp):
 			if items['drawgrid'].lower()=="true":
 				self.viewer.drawGrid = True
 
+		self.viewer.title = self.title
+
 
 
 	def setObject(self, **params):
-		name = params['option']
 		objectType = params['items'].pop('type')
 
 		try:
@@ -129,6 +149,7 @@ class AppFromConfigFile(apps.BaseApp):
 			raise Exception('Can\'t load object type '+objectType, sys.exc_info())
 
 		object = Object(grid=self.grid)
+		object.name = params['option']
 
 		if params['items'].has_key('image'):
 			object.setImage(path.join(self.images_dir, params['items'].pop('image')))
@@ -146,21 +167,58 @@ class AppFromConfigFile(apps.BaseApp):
 					y = self.grid.getSize()[1]-1
 				pos = (int(x), int(y))
 
-			self.grid.teleport(object, pos)
+			print self.grid.teleport(object, pos)
 			self.grid.Timer.addChange(pos)
 			object.position = pos
 
-		print object.getPosition()
-		self._objects[name] = object
+		object.set(params['items'])
 
+		if params['items'].has_key('control'):
+			self.setControl(object=object, control=params['items'].pop('control'))
+		if params['items'].has_key('weight'):
+			object.weight = int(params['items'].pop('weight'))
 
-
+		self._objects[object.name] = object
 
 	def setCollision(self, **params):
-		pass
+		primaryName, secondaryName = params['option'].split(':')
+
+		primaryObject = self._objects[primaryName]
+		secondaryObject = self._objects[secondaryName]
+
+		result = True
+		speed = 100
+		onCollision = None
+
+		if params['items'].has_key('result'):
+			if params['items']['result'].lower()=="false":
+				result = False
+				speed = 0
+
+		if params['items'].has_key('speed'):
+			speed = int(params['items']['speed'])
+
+		if params['items'].has_key('oncollision'):
+			name = params['items'].pop('oncollision')
+			if self.collisions.has_key(name):
+				onCollision = self.collisions[name]
+
+
+		self.grid.Collisions.append(
+			self.grid.Collision(
+				primaryObject,
+				secondaryObject,
+				result=result,
+				speed=speed,
+				onCollision=onCollision
+			)
+		)
 
 	def setControl(self, **params):
-		controlName = params['items']['control'] or params['control']
+		if not params.has_key('items'):
+			params['items'] = params
+
+		controlName = params['items']['control']
 
 		try:
 			exec('import controls.'+controlName+' as Control')
@@ -173,6 +231,9 @@ class AppFromConfigFile(apps.BaseApp):
 			c.setObject(params['items']['object'])
 
 		self.viewer.events.update(c.getList())
+
+		for event in c.getList():
+			self.viewer.eventsControls[event] = c
 
 	def quit(self):
 		self.viewer.stop()

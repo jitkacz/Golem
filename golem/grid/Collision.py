@@ -10,13 +10,17 @@ class Collision(object):
 	primaryObject = None
 	secondaryObject = None
 
+    # ID of objects
+	primaryObjectID = None
+	secondaryObjectID = None
+
 	# boolean, if primary object can go through cell with secondary object
 	result = True
 
 	# speed in %
 	speed = 100
 
-	def __init__(self, primaryObject, secondaryObject, result=True, speed=100):
+	def __init__(self, primaryObject, secondaryObject, result=True, speed=100, onCollision=None):
 		"""
 		To creating new collision and append it to
 		Collisions dictionary.
@@ -24,8 +28,14 @@ class Collision(object):
 		self.primaryObject = primaryObject
 		self.secondaryObject = secondaryObject
 
+		self.primaryObjectID = primaryObject.id()
+		self.secondaryObjectID = secondaryObject.id()
+
 		self.setResult(result)
 		self.setSpeed(speed)
+
+		if onCollision:
+			self.onCollision = onCollision
 
 	def setResult(self, value):
 		"""
@@ -55,4 +65,5 @@ class Collision(object):
 		It can do lot of things. For example destroy one of
 		objects, change objects images etc.
 		"""
+		print "OK 3"
 		pass
