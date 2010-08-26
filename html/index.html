@@ -2,9 +2,31 @@
 <html>
   <head>
   <meta http-equiv="content-type" content="text/html; charset=windows-1250">
+  <script type="application/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
   <title>Golem - Index</title>
   </head>
   <body>
     <strong><p style="color: red; text-align: center;">Index page received from GOLEM server!</p></strong>
+	<br />
+	<br />
+	<form name="CommandForm">
+		<input type="text" id="CommandText" />
+		<input type="button" id="Submit" value="Send"/>
+	</form>
+	<div id="page">
+	</div>
   </body>
+  <script type="application/javascript">
+	$("#Submit").click(function() {
+		var serverAddr = '192.168.1.5:8080';
+		var command = $("#CommandText").val();
+		if (command != "") {
+			$.ajax({
+				url: 'http://'+serverAddr+'?request=command&text='+command,
+				type: 'POST',
+				success: function(data) { }
+			});
+		}
+	});
+  </script>
 </html>

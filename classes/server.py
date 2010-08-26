@@ -39,14 +39,15 @@ class Server(object):
 
 			socket, client = self.waitForClient()
 			print "Client %s (#%i) was connected" % (client[0], client[1])
-
-			clientID = self.getClientID(self.recvData(socket, 1024))
+			
+			clientRequest = self.recvData(socket, 1024)
+			clientID = self.getClientID(clientRequest)
 			if (clientID):
 				clientInstance = self.findClient(clientID)
 
 				if clientInstance:
 					print "Client with ID %i is already known" % (clientID)
-					HTMLPage = self.getHTMLFile('index')
+					HTMLPage = self.checkRequest(clientRequest)
 					self.sendPage(socket, HTTP_HEADER_WITHOUT_COOKIE % (str(len(HTMLPage))), HTMLPage)
 				else:
 					print "Client with ID %i is expired and deleted" % (clientID)
@@ -61,7 +62,18 @@ class Server(object):
 			self.printClients()
 			print ""
 			socket.close()
-
+	
+	def checkRequest(self, clientRequest): #TODO - Analyze packet from script
+		"""
+		Read request from skript from browser
+		"""
+		lines = clientRequest.split('\n')
+		
+		for line in lines:
+			if "HTTP" in line: #TODO - Parse Command type and Command text from HTTP head
+				print line
+				return self.getHTMLFile('index')
+		
 	def stop(self):
 		self.status = False
 		self.socket.listen(0)
@@ -124,12 +136,6 @@ class Server(object):
 				return client
 
 		return False
-
-	def checkRequest(self, clientRequest): #TODO - Analyze packet from script
-		"""
-		Read request from skript from browser
-		"""
-		pass 
 	
 	def checkForInactiveClients(self):
 		expiration = datetime.datetime.now()
