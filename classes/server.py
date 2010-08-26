@@ -15,7 +15,7 @@ class Server(object):
 
 	def __init__(self, host="localhost", port=8080):
 		self.clients = []
-		self.IDCounter = 1 #TODO - Maybe start from 0
+		self.IDCounter = 1 
 
 		self._createSocket(host, port)
 
@@ -79,7 +79,7 @@ class Server(object):
 		
 		for line in lines:
 			if "Cookie: Golem-ID" in line:
-				return int(line[17]+line[18]) #TODO - Parse ID from Cookie
+				return int(line[17:])
 
 		return False
     		
