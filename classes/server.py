@@ -42,17 +42,18 @@ class Server(object):
 
 			clientID = self.getClientID(self.recvData(socket, 1024))
 			if (clientID):
-				#TODO - If client have cookie, but server havent his client instance (server restarted and cookies dont expired)
 				clientInstance = self.findClient(clientID)
 
 				if clientInstance:
 					print "Client with ID %i is already known" % (clientID)
 					HTMLPage = self.getHTMLFile('index')
 					self.sendPage(socket, HTTP_HEADER_WITHOUT_COOKIE % (str(len(HTMLPage))), HTMLPage)
+				#TODO - If client has cookie, but server no, send to client HTTP header with request for delete old cookie
 			else:
-				self.addClient(socket)
+				self.addClient(socket, client)
 				print "Client was added to list"
-
+			
+			self.printClients()
 			print ""
 			socket.close()
 
@@ -83,13 +84,13 @@ class Server(object):
 
 		return False
     		
-	def addClient(self, socket):
+	def addClient(self, socket, client):
 		"""
 		Function adds new client instance to servers clientList
 		"""
-		#TODO - Add client expiration time to Client class 
+		
 		expiration = datetime.datetime.now() + datetime.timedelta(hours=1) 
-		self.clients.append(Client(self.IDCounter))
+		self.clients.append(Client(self.IDCounter, expiration.strftime("%a, %d-%b-%Y %H:%M:%S PST"), client[0]))
 
 		HTMLPage = self.getHTMLFile('added')
     
@@ -112,7 +113,7 @@ class Server(object):
 		"""
 		Find and return client instance from servers clientList
 		"""
-		for client in self.clients: #TODO - Check if clients expresion time, if epired delete client
+		for client in self.clients: #TODO - Check if clients expiration time, if epired delete client
 			if client.ID == ID:
 				return client
 
@@ -126,4 +127,4 @@ class Server(object):
 
 	def printClients(self):
 		for client in self.clients:
-			print client.ID
+			print client.ID, " - ", client.expiration, " - ", client.IP
