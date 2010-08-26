@@ -59,11 +59,10 @@ class Collision(object):
 			self.speed = speed
 		return self
 
-	def onCollision(self):
+	def onCollision(self, **params):
 		"""
 		Function which is called within collision.
 		It can do lot of things. For example destroy one of
 		objects, change objects images etc.
 		"""
-		print "OK 3"
 		pass

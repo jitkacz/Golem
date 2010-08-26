@@ -3,22 +3,17 @@
 
 import golem.apps.AppFromConfigFile
 
-
-
 class FindWayApp(golem.apps.AppFromConfigFile):
 	config = 'findway.cfg'
-
-	def init(self):
-		pass
 
 	def beforeRun(self):
 		self.objectRelocate(self._objects['golem'])
 		self.objectRelocate(self._objects['food'])
 
-	def saveEvents(self):
+	def setEvents(self):
 		self.viewer.events['onButtonDown'] = self.moveGolemOnClick
 
-	def saveCollisions(self):
+	def setCollisions(self):
 		self.collisions['objectRelocate'] = self.objectRelocate
 		self.collisions['golemAteFood'] = self.golemAteFood
 
@@ -27,7 +22,8 @@ class FindWayApp(golem.apps.AppFromConfigFile):
 		control.object.setPosition(pos)
 
 	def golemAteFood(self, primary=None, secondary=None, **params):
-		self.grid.teleport(secondary, self.grid.randomPosition([secondary.getPosition]))
+		while not self.grid.teleport(secondary, self.grid.randomPosition([secondary.getPosition])):
+			pass
 
 	def objectRelocate(self, primary=None, **params):
 		while not self.grid.teleport(primary, self.grid.randomPosition([primary.getPosition])):
