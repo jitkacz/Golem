@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+﻿#!/usr/bin/env python
 #-*- coding:utf-8 -*-
 
 import os, socket, datetime
@@ -8,7 +8,7 @@ from classes.client import Client
 
 HTTP_HEADER_WITH_COOKIE = "HTTP/1.1 200 OK\nContent-Type: text/html; charset=UTF-8\nSet-Cookie: Golem-ID=%i;expires=%s\nContent-Length: %s\n\n"
 HTTP_HEADER_WITHOUT_COOKIE = "HTTP/1.1 200 OK\nContent-Type: text/html; charset=UTF-8\nContent-Length: %s\n\n"
-REQUESTS = ['command', 'rendering', 'message']
+REQUESTS = ['command', 'render', 'message']
 
 class Server(object):
 	status = False
@@ -56,8 +56,9 @@ class Server(object):
 		for line in lines:
 			if "HTTP" in line: #TODO - Parse Command type and Command text from HTTP head
 				for command in REQUESTS:
-					if command in line:
-						return line[28:len(line)-10]
+					if command in line: #TODO - Request for render or command
+						print line
+						return line
 				return self.getHTMLFile('index')
 	
 	def clientOperation(self, socket, client):
