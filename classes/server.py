@@ -12,7 +12,7 @@ REQUESTS = ['command', 'render', 'message']
 
 class Server(object):
 	status = False
-	pathToHTML = 'C:\\Server\\html'
+	pathToHTML = 'html'
 
 	def __init__(self, host="localhost", port=8080):
 		self.clients = []
