@@ -9,7 +9,6 @@ if __name__ == "__main__":
 	print "Server started!"
 
 	server.start()
-	clientSocket.close()
 
 	print "Server stop!"
 
