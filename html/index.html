@@ -91,7 +91,7 @@
 			<div id="console">
 				<div id="consoleOutput" style="width: 99%; height: 70%;"></div>
 				<br />
-				<form id="consoleForm">
+				<form id="consoleForm" name="consoleForm">
 					<input type="text" id="consoleText" size="40" style="margin-right: 5px;"/>
 				</form>
 			</div>
@@ -106,6 +106,7 @@
 					type: 'POST',
 					success: function(response) {
 						$("#consoleOutput").html(response);
+						document.consoleForm.reset();
 					}
 				});
 			}

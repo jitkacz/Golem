@@ -12,7 +12,7 @@ REQUESTS = ['command', 'render', 'message']
 
 class Server(object):
 	status = False
-	pathToHTML = 'html'
+	pathToHTML = 'C:\\Server\\html'
 
 	def __init__(self, host="localhost", port=8080):
 		self.clients = []
@@ -37,15 +37,14 @@ class Server(object):
 		self._run()
 
 	def _run(self):
-		print ""
 		while self.status:
-			print "Server wait for client"
+			#print "Server wait for client"
 
 			socket, client = self.waitForClient()
 			self.activeThreads.insert(0, threading.Thread(None, self.clientOperation, client[0], (socket, client)))
 			self.activeThreads[0].start()
 			self.checkForInactiveClients()
-			self.printClients()
+			#self.printClients()
 	
 	def checkRequest(self, clientRequest): 
 		"""
@@ -60,12 +59,13 @@ class Server(object):
 						print line
 						return line
 				return self.getHTMLFile('index')
+			
 	
 	def clientOperation(self, socket, client):
 		"""
 		Powerful client request
 		"""
-		print "Client %s (#%i) was connected" % (client[0], client[1])
+		#print "Client %s (#%i) was connected" % (client[0], client[1])
 			
 		clientRequest = self.recvData(socket, 1024)
 		clientID = self.getClientID(clientRequest)
@@ -74,11 +74,11 @@ class Server(object):
 			clientInstance = self.findClient(clientID)
 			
 			if clientInstance:
-				print "Client with ID %i is already known" % (clientID)
+				#print "Client with ID %i is already known" % (clientID)
 				HTMLPage = self.checkRequest(clientRequest)
 				self.sendPage(socket, HTTP_HEADER_WITHOUT_COOKIE % (str(len(HTMLPage))), HTMLPage)
 			else:
-				print "Client with ID %i is expired and deleted" % (clientID)
+				#print "Client with ID %i is expired and deleted" % (clientID)
 				HTMLPage = self.getHTMLFile('expired')
 				expiration = datetime.datetime.now() - datetime.timedelta(days=1)
 				self.sendPage(socket, HTTP_HEADER_WITH_COOKIE % (clientID, expiration.strftime("%a, %d-%b-%Y %H:%M:%S PST"), str(len(HTMLPage))), HTMLPage)
@@ -86,9 +86,8 @@ class Server(object):
 			self.addClientSemaphore.acquire()
 			self.addClient(socket, client)
 			self.addClientSemaphore.release()
-			print "Client was added to list"
+			#print "Client was added to list"
 		
-		print ""
 		socket.close()
 		for thread in self.activeThreads:
 			if thread.name == client[0]:
@@ -130,7 +129,7 @@ class Server(object):
 		expiration = datetime.datetime.now() + datetime.timedelta(hours=1) 
 		self.clients.append(Client(self.IDCounter, expiration.strftime("%a, %d-%b-%Y %H:%M:%S PST"), client[0]))
 
-		HTMLPage = self.getHTMLFile('added')
+		HTMLPage = self.getHTMLFile('index')
     
 		self.sendPage(socket, HTTP_HEADER_WITH_COOKIE % (self.IDCounter, expiration.strftime("%a, %d-%b-%Y %H:%M:%S PST"), str(len(HTMLPage))), HTMLPage)
 		self.IDCounter += 1
