@@ -25,7 +25,9 @@
 			$.ajax({
 				url: 'http://'+serverAddr+'?request=command&text='+command,
 				type: 'POST',
-				success: function(data) { }
+				success: function(data) {
+					$("#page").html(data);
+				}
 			});
 		}
 	});
