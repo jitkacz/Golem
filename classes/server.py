@@ -48,11 +48,16 @@ class Server(object):
 					print "Client with ID %i is already known" % (clientID)
 					HTMLPage = self.getHTMLFile('index')
 					self.sendPage(socket, HTTP_HEADER_WITHOUT_COOKIE % (str(len(HTMLPage))), HTMLPage)
-				#TODO - If client has cookie, but server no, send to client HTTP header with request for delete old cookie
+				else:
+					print "Client with ID %i is expired and deleted" % (clientID)
+					HTMLPage = self.getHTMLFile('expired')
+					expiration = datetime.datetime.now() - datetime.timedelta(days=1)
+					self.sendPage(socket, HTTP_HEADER_WITH_COOKIE % (clientID, expiration.strftime("%a, %d-%b-%Y %H:%M:%S PST"), str(len(HTMLPage))), HTMLPage)
 			else:
 				self.addClient(socket, client)
 				print "Client was added to list"
 			
+			self.checkForInactiveClients()
 			self.printClients()
 			print ""
 			socket.close()
@@ -88,7 +93,7 @@ class Server(object):
 		"""
 		Function adds new client instance to servers clientList
 		"""
-		
+		#TODO - IDCounter overflow (when server is online for a long time) - Low priority
 		expiration = datetime.datetime.now() + datetime.timedelta(hours=1) 
 		self.clients.append(Client(self.IDCounter, expiration.strftime("%a, %d-%b-%Y %H:%M:%S PST"), client[0]))
 
@@ -106,14 +111,15 @@ class Server(object):
 				return self.getHTMLFile('error404')
 			return "Error"
 
-	def delClient(self):
-		pass #TODO - Delete client and send HTTP header with delete cookie request
+	def delClient(self, client):
+		self.clients.remove(client)
 
 	def findClient(self, ID):
 		"""
 		Find and return client instance from servers clientList
 		"""
-		for client in self.clients: #TODO - Check if clients expiration time, if epired delete client
+		
+		for client in self.clients: 
 			if client.ID == ID:
 				return client
 
@@ -124,7 +130,13 @@ class Server(object):
 		Read request from skript from browser
 		"""
 		pass 
-
+	
+	def checkForInactiveClients(self):
+		expiration = datetime.datetime.now()
+		for client in self.clients:		
+			if client.expiration <= expiration.strftime("%a, %d-%b-%Y %H:%M:%S PST"):
+				self.delClient(client)
+	
 	def printClients(self):
 		for client in self.clients:
 			print client.ID, " - ", client.expiration, " - ", client.IP
