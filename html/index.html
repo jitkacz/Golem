@@ -18,7 +18,8 @@
   </body>
   <script type="application/javascript">
 	$("#Submit").click(function() {
-		var serverAddr = '192.168.1.5:8080';
+		var reg=/^(\w+:\/\/)?([^\/]+)/ig;
+		var serverAddr = document.URL.split(reg)[2];
 		var command = $("#CommandText").val();
 		if (command != "") {
 			$.ajax({
