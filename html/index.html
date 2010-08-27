@@ -65,10 +65,11 @@
 		});
 		function render() {
 			$.ajax({
-				url: 'http://'+serverAddr+'?request=render',
+				url: 'http://'+serverAddr+'?1&1&0&',
 				type: 'GET',
 				success: function(response) {
-					$("#gameArea").html(response);
+					if (response != "") 
+						$("#gameArea").html(response);
 				}
 			});
 			setTimeout('render()', 15000);
@@ -102,7 +103,7 @@
 			var command = $("#consoleText").val();
 			if (command != "") {
 				$.ajax({
-					url: 'http://'+serverAddr+'?request=command&text='+command,
+					url: 'http://'+serverAddr+'?1&2&'+command+'&',
 					type: 'POST',
 					success: function(response) {
 						$("#consoleOutput").html(response);

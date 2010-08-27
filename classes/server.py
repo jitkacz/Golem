@@ -8,7 +8,6 @@ from classes.client import Client
 
 HTTP_HEADER_WITH_COOKIE = "HTTP/1.1 200 OK\nContent-Type: text/html; charset=UTF-8\nSet-Cookie: Golem-ID=%i;expires=%s\nContent-Length: %s\n\n"
 HTTP_HEADER_WITHOUT_COOKIE = "HTTP/1.1 200 OK\nContent-Type: text/html; charset=UTF-8\nContent-Length: %s\n\n"
-REQUESTS = ['command', 'render', 'message']
 
 class Server(object):
 	status = False
@@ -53,12 +52,20 @@ class Server(object):
 		lines = clientRequest.split('\n')
 		
 		for line in lines:
-			if "HTTP" in line: #TODO - Parse Command type and Command text from HTTP head
-				for command in REQUESTS:
-					if command in line: #TODO - Request for render or command
-						print line
-						return line
-				return self.getHTMLFile('index')
+			if "HTTP" in line: 
+				head = line.split('?')
+				try:
+					commands = head[1].split('&')
+					if commands[1] == '1': #TODO - All command, all response, all check
+						return "Rendering from client ID <strong>"+commands[0]+"</strong>"
+					elif commands[1] == '2':
+						return "Command <strong>"+commands[2]+"</strong> from client ID <strong>"+commands[0]+"</strong>"
+				except:		
+					if line == "GET / HTTP/1.1\r":
+						return self.getHTMLFile('index')
+				
+				return self.getHTMLFile('error404')
+				
 			
 	
 	def clientOperation(self, socket, client):
